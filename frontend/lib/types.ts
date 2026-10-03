@@ -1,0 +1,72 @@
+export type Role =
+  | "ADMIN"
+  | "ANALYST"
+  | "REGIONAL_MANAGER"
+  | "MERCHANT"
+  | "AGENT"
+  | "JUDGE";
+
+export interface User {
+  id: string;
+  email: string;
+  display_name: string;
+  role: Role;
+  linked_entity_type: string | null;
+  linked_entity_id: string | null;
+}
+
+export interface PageResult<T> {
+  items: T[];
+  total: number;
+  limit: number;
+  offset: number;
+  [key: string]: unknown;
+}
+
+export interface EntityIdentity {
+  merchant_id?: string;
+  agent_id?: string;
+  merchant_category?: string;
+  business_size?: string;
+  location_id?: string;
+  district?: string;
+  area_type?: string;
+  agent_type?: string;
+  merchant_status?: string;
+  status?: string;
+  [key: string]: unknown;
+}
+
+export interface Intervention {
+  id: string;
+  target_type: "merchant" | "agent" | "location";
+  target_id: string;
+  capability: string;
+  recommended_action: string;
+  reason: string;
+  status: "PROPOSED" | "APPROVED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "DISMISSED";
+  created_by: string;
+  approved_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface RegistryModel {
+  capability: string;
+  engine_type: string;
+  serving_mode: string;
+  horizon: string | null;
+  forecast_scope?: string;
+  artifact: string;
+  version: string | null;
+  documented_metrics: Record<string, string | number | Record<string, string>>;
+  limitations: string[];
+  synthetic_data: boolean;
+}
+
+export interface ApiFailure {
+  code: string;
+  message: string;
+  correlation_id?: string;
+  safe_details?: Record<string, unknown>;
+}

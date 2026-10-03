@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 
+import { AuthProvider } from "@/providers/AuthProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "MFS Intelligence Command Center",
-  description: "AI Hackathon 2026 Track 05 project foundation.",
+  description: "Synthetic merchant and agent intelligence with human-reviewed actions.",
 };
 
 export default function RootLayout({
@@ -14,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div className="ambient-root" aria-hidden="true" />
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
