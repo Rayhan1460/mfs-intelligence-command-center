@@ -1,6 +1,16 @@
 from functools import lru_cache
+from pathlib import Path
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
+DEFAULT_SOURCE_ROOT = (
+    REPOSITORY_ROOT
+    / "source_assets"
+    / "MFS_AI_Hackathon_2026-20261002T164011Z-1-001 (2)"
+    / "MFS_AI_Hackathon_2026"
+)
 
 
 class Settings(BaseSettings):
@@ -11,6 +21,10 @@ class Settings(BaseSettings):
         "@localhost:5432/mfs_intelligence"
     )
     cors_origins: list[str] = ["http://localhost:3000"]
+    source_assets_root: Path = Field(
+        default=DEFAULT_SOURCE_ROOT,
+        validation_alias="SOURCE_ASSETS_ROOT",
+    )
 
     model_config = SettingsConfigDict(
         env_file=".env",
