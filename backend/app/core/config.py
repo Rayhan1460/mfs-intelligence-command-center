@@ -43,7 +43,17 @@ class Settings(BaseSettings):
     @classmethod
     def resolve_relative_source_root(cls, value):
         path = Path(value)
-        return path if path.is_absolute() else REPOSITORY_ROOT / path
+        if path.is_absolute():
+            return path
+        candidates = [
+            REPOSITORY_ROOT / path,
+            Path(__file__).resolve().parents[2] / path,
+            Path.cwd() / path,
+        ]
+        for candidate in candidates:
+            if candidate.exists():
+                return candidate.resolve()
+        return REPOSITORY_ROOT / path
 
 
 @lru_cache
