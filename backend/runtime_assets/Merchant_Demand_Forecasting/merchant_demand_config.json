@@ -1,0 +1,41 @@
+{
+    "model_name": "Merchant Category Demand Forecasting",
+    "model_version": "1.0",
+    "forecast_horizon": "next_day",
+    "forecast_level": "merchant_category",
+    "model": "XGBoost Regressor",
+    "features": [
+        "daily_txn_count",
+        "daily_txn_value",
+        "unique_merchants",
+        "unique_customers",
+        "value_lag_1d",
+        "value_lag_2d",
+        "value_lag_7d",
+        "count_lag_1d",
+        "count_lag_7d",
+        "value_mean_3d",
+        "value_mean_7d",
+        "value_mean_14d",
+        "value_std_7d",
+        "target_day_of_week",
+        "target_month",
+        "target_is_weekend",
+        "category_Education",
+        "category_Electronics",
+        "category_Fashion",
+        "category_General Retail",
+        "category_Grocery",
+        "category_Healthcare",
+        "category_Pharmacy",
+        "category_Restaurant",
+        "category_Transport",
+        "category_Utility"
+    ],
+    "demand_thresholds": {
+        "low_to_normal": 32132.8984375,
+        "normal_to_high": 39925.4765625
+    },
+    "threshold_calibration": "33rd and 67th percentiles of validation predictions",
+    "notes": "Demand levels are relative validation-calibrated bands, not probabilities. Recommendations are decision-support rules."
+}

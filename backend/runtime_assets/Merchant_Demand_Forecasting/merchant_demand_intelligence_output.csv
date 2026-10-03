@@ -1,0 +1,391 @@
+merchant_category,target_date,predicted_next_day_demand,recent_7d_avg_demand,forecast_change_percent,demand_level,recommended_action
+Education,2026-08-23,37830.53,34636.58,9.22,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-08-24,31424.54,33775.28,-6.96,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Education,2026-08-25,29205.06,30012.56,-2.69,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Education,2026-08-26,32710.74,28910.22,13.15,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Education,2026-08-27,34175.84,28678.51,19.17,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Education,2026-08-28,29853.28,30350.82,-1.64,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Education,2026-08-29,34160.81,28883.9,18.27,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Education,2026-08-30,31178.39,29413.39,6.0,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Education,2026-08-31,31080.95,31006.28,0.24,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Education,2026-09-01,30051.1,34017.24,-11.66,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Education,2026-09-02,30610.62,33813.98,-9.47,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Education,2026-09-03,31154.2,35134.32,-11.33,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Education,2026-09-04,33386.98,32477.08,2.8,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-05,28565.18,34055.47,-16.12,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Education,2026-09-06,36139.42,35790.63,0.97,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-07,36330.58,37095.6,-2.06,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-08,35952.8,38075.03,-5.57,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-09,36988.58,37096.45,-0.29,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-10,38097.1,38536.44,-1.14,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-11,38026.52,40049.31,-5.05,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-12,36234.62,39544.5,-8.37,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-13,37520.84,37381.6,0.37,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-14,35706.4,34788.36,2.64,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-15,34049.16,33473.39,1.72,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-16,34710.94,36332.32,-4.46,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-17,33928.8,33319.1,1.83,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-18,34468.01,33810.79,1.94,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-19,35923.68,35665.95,0.72,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-20,34448.24,35579.04,-3.18,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-21,36171.51,35506.8,1.87,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-22,34910.58,36744.75,-4.99,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-23,34551.78,35084.67,-1.52,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-24,37272.09,36074.33,3.32,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-25,35723.0,36594.21,-2.38,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-26,36763.76,35300.64,4.14,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-27,34133.13,39511.62,-13.61,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-28,36998.68,40397.73,-8.41,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-29,38059.12,38555.76,-1.29,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Education,2026-09-30,35015.51,39694.11,-11.79,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Electronics,2026-08-23,29720.35,28097.51,5.78,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-08-24,29462.92,27623.32,6.66,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-08-25,30647.58,27758.14,10.41,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-08-26,27527.21,28213.65,-2.43,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-08-27,27905.22,30298.65,-7.9,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-08-28,28482.81,29861.51,-4.62,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-08-29,25022.28,28230.51,-11.36,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Electronics,2026-08-30,28898.76,25686.81,12.5,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-08-31,32787.66,24765.79,32.39,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Electronics,2026-09-01,25616.8,26014.18,-1.53,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-02,28033.45,26654.06,5.18,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-03,26334.25,24006.55,9.7,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-04,27228.83,22402.29,21.54,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-05,25766.45,24379.81,5.69,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-06,27598.82,26157.81,5.51,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-07,26914.32,27347.09,-1.58,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-08,25211.47,25519.2,-1.21,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-09,26660.84,25531.09,4.43,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-10,26990.37,27135.23,-0.53,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-11,28513.44,26473.92,7.7,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-12,26559.75,25864.56,2.69,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-13,27470.76,26032.15,5.53,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-14,25851.02,27741.07,-6.81,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-15,27978.92,27367.4,2.23,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-16,25306.34,26017.28,-2.73,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-17,27467.61,26305.49,4.42,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-18,29404.71,26561.67,10.7,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-19,24892.97,29214.73,-14.79,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Electronics,2026-09-20,26738.38,29152.37,-8.28,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-21,25311.64,27775.68,-8.87,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-22,26586.88,28789.18,-7.65,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-23,26398.85,29070.65,-9.19,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-24,25836.54,27031.23,-4.42,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-25,26003.59,28677.49,-9.32,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-26,29936.82,26922.92,11.19,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-27,28999.63,27039.32,7.25,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-28,25846.92,25411.39,1.71,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-29,26407.96,24559.04,7.53,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Electronics,2026-09-30,25686.0,25423.09,1.03,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-08-23,31737.06,33664.49,-5.73,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-08-24,32252.39,30303.33,6.43,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-08-25,31522.01,30597.39,3.02,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-08-26,33323.92,32598.92,2.22,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-08-27,30045.42,33379.77,-9.99,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-08-28,34048.44,32185.54,5.79,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-08-29,30445.18,34251.98,-11.11,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Fashion,2026-08-30,33892.02,31763.48,6.7,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-08-31,31647.01,35697.51,-11.35,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Fashion,2026-09-01,35384.95,34720.81,1.91,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-02,32032.6,34040.9,-5.9,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-09-03,35676.85,32114.28,11.09,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Fashion,2026-09-04,38985.93,40085.97,-2.74,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-05,38959.82,37349.41,4.31,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-06,37986.58,37933.03,0.14,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-07,34675.1,35581.32,-2.55,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-08,36257.54,41667.95,-12.98,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-09,36833.14,41548.33,-11.35,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-10,36258.19,42610.67,-14.91,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-11,36745.89,36394.33,0.97,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-12,35320.48,37606.32,-6.08,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-13,39424.76,38622.18,2.08,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-14,39661.81,36341.6,9.14,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-15,31481.12,29507.26,6.69,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-09-16,31866.56,30366.24,4.94,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-09-17,32859.33,27570.73,19.18,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Fashion,2026-09-18,31344.42,26993.75,16.12,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-09-19,34124.24,24295.93,40.45,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Fashion,2026-09-20,30403.37,23687.94,28.35,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-09-21,31315.55,28249.23,10.85,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-09-22,30295.96,30475.19,-0.59,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-09-23,31042.55,28303.04,9.68,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-09-24,30167.54,29318.25,2.9,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-09-25,32319.73,30239.29,6.88,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-26,31551.81,31476.6,0.24,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-09-27,32848.79,31954.96,2.8,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Fashion,2026-09-28,26848.74,30884.3,-13.07,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Fashion,2026-09-29,31198.03,29101.67,7.2,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Fashion,2026-09-30,32000.13,29238.03,9.45,LOW,Demand is relatively low; maintain service availability and monitor changes.
+General Retail,2026-08-23,87289.96,87908.27,-0.7,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-08-24,85167.89,84747.51,0.5,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-08-25,97347.88,89083.9,9.28,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-08-26,94297.84,82792.18,13.9,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+General Retail,2026-08-27,90215.13,85683.6,5.29,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-08-28,97854.24,82694.28,18.33,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+General Retail,2026-08-29,84800.24,84261.84,0.64,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-08-30,91584.49,85524.17,7.09,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-08-31,85816.11,84212.4,1.9,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-01,75744.7,83642.31,-9.44,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-02,96395.62,90400.78,6.63,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-03,89838.12,94114.07,-4.54,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-04,93258.94,93594.08,-0.36,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-05,84968.31,91274.86,-6.91,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-06,94007.44,91199.92,3.08,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-07,96141.66,98240.78,-2.14,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-08,98131.11,97831.3,0.31,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-09,91686.82,95604.99,-4.1,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-10,86792.04,87971.39,-1.34,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-11,87052.84,88907.23,-2.09,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-12,93170.59,90747.91,2.67,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-13,94102.52,99654.07,-5.57,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-14,95098.24,90608.78,4.95,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-15,83397.84,88436.7,-5.7,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-16,87169.41,84486.99,3.17,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-17,90716.45,82275.1,10.26,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+General Retail,2026-09-18,81602.08,82514.17,-1.11,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-19,89418.47,82309.46,8.64,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-20,79070.85,74956.17,5.49,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-21,81112.74,75705.45,7.14,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-22,71065.8,77410.52,-8.2,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-23,87996.72,82037.71,7.26,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-24,82768.38,86944.31,-4.8,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-25,85312.07,88527.05,-3.63,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-26,91419.84,86947.07,5.14,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-27,94988.86,86551.08,9.75,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-28,93024.4,91621.33,1.53,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-29,93963.95,90966.94,3.29,HIGH,Maintain strong service readiness for the expected high-demand period.
+General Retail,2026-09-30,87989.84,91538.25,-3.88,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-08-23,97875.67,97185.92,0.71,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-08-24,114389.4,97426.54,17.41,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Grocery,2026-08-25,101937.19,100454.7,1.48,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-08-26,102902.07,98070.23,4.93,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-08-27,99345.05,95786.58,3.72,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-08-28,92950.13,99871.54,-6.93,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-08-29,99724.38,95617.01,4.3,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-08-30,102017.57,91600.28,11.37,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Grocery,2026-08-31,96660.08,92629.96,4.35,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-01,96126.47,88466.65,8.66,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-02,96726.09,85777.23,12.76,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Grocery,2026-09-03,94891.38,88634.44,7.06,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-04,100977.56,88456.45,14.16,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Grocery,2026-09-05,103739.02,92488.77,12.16,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Grocery,2026-09-06,95806.77,94054.51,1.86,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-07,97806.72,90632.77,7.92,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-08,102012.06,89462.48,14.03,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Grocery,2026-09-09,101172.55,92796.62,9.03,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-10,97630.85,95597.18,2.13,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-11,106496.75,97922.24,8.76,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-12,97273.98,101067.72,-3.75,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-13,104115.95,96928.82,7.41,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-14,84451.12,95829.69,-11.87,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-15,94950.56,98557.02,-3.66,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-16,103640.36,96984.98,6.86,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-17,90119.88,92621.64,-2.7,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-18,97110.86,90546.23,7.25,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-19,99771.3,87574.51,13.93,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Grocery,2026-09-20,101528.96,91347.4,11.15,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Grocery,2026-09-21,91741.68,93497.62,-1.88,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-22,103034.84,93749.76,9.9,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-23,104637.34,94140.8,11.15,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Grocery,2026-09-24,76266.78,95496.37,-20.14,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-25,98966.57,92453.97,7.04,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-26,97693.28,90674.14,7.74,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-27,91125.06,93069.32,-2.09,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-28,100784.24,94144.15,7.05,HIGH,Maintain strong service readiness for the expected high-demand period.
+Grocery,2026-09-29,104733.67,91976.66,13.87,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Grocery,2026-09-30,94567.52,95866.08,-1.35,HIGH,Maintain strong service readiness for the expected high-demand period.
+Healthcare,2026-08-23,25747.75,22369.19,15.1,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-08-24,27594.89,22998.32,19.99,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-08-25,22985.58,21693.38,5.96,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-08-26,21241.06,19768.69,7.45,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-08-27,22596.5,16404.6,37.74,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-08-28,23222.25,17926.56,29.54,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-08-29,25062.19,17969.48,39.47,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-08-30,21506.98,17742.79,21.22,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-08-31,23710.77,20062.14,18.19,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-01,25715.18,20510.79,25.37,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-02,23835.61,20183.89,18.09,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-03,22521.14,23268.15,-3.21,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-04,25896.62,23597.84,9.74,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-05,24024.34,23076.5,4.11,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-06,21946.59,24735.93,-11.28,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Healthcare,2026-09-07,22166.78,24634.59,-10.02,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Healthcare,2026-09-08,29171.87,24434.87,19.39,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-09,16385.5,23267.23,-29.58,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Healthcare,2026-09-10,23470.96,21454.96,9.4,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-11,26232.21,20926.27,25.36,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-12,26652.96,20735.23,28.54,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-13,19285.86,19519.02,-1.19,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-14,25043.46,16923.59,47.98,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-15,23437.16,18697.7,25.35,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-16,22286.72,20694.34,7.69,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-17,26197.42,21938.99,19.41,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-18,22850.13,20582.55,11.02,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-19,21100.95,21887.84,-3.6,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-20,23554.14,24165.36,-2.53,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-21,25185.98,25536.52,-1.37,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-22,18457.32,22519.87,-18.04,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Healthcare,2026-09-23,23090.64,22345.58,3.33,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-24,25147.03,21340.03,17.84,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-25,22625.22,21238.79,6.53,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-26,22152.66,22575.27,-1.87,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-27,23500.0,22348.71,5.15,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-28,25759.22,20596.99,25.06,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-29,24365.34,22050.11,10.5,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Healthcare,2026-09-30,23276.8,24013.77,-3.07,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Pharmacy,2026-08-23,38429.57,37277.63,3.09,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-08-24,37803.69,39297.96,-3.8,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-08-25,35813.71,40753.2,-12.12,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-08-26,38458.63,40533.75,-5.12,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-08-27,37115.92,39820.56,-6.79,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-08-28,39281.12,40410.71,-2.8,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-08-29,35757.42,40162.14,-10.97,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-08-30,38250.29,39035.56,-2.01,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-08-31,35041.96,40333.23,-13.12,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-01,36066.42,37924.73,-4.9,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-02,35075.52,39695.53,-11.64,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-03,39744.77,39073.29,1.72,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-04,34652.86,42251.4,-17.98,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-05,36745.35,42710.03,-13.97,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-06,36928.26,47406.89,-22.1,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-07,37060.44,46091.52,-19.59,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-08,33588.36,44397.76,-24.35,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-09,40725.66,41693.71,-2.32,HIGH,Maintain strong service readiness for the expected high-demand period.
+Pharmacy,2026-09-10,34564.58,43185.93,-19.96,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-11,35782.37,41364.16,-13.49,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-12,38287.81,41455.52,-7.64,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-13,36494.89,39802.72,-8.31,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-14,39475.28,38255.71,3.19,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-15,39378.94,38434.84,2.46,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-16,39220.9,39216.45,0.01,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-17,41371.52,36960.46,11.93,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Pharmacy,2026-09-18,35691.86,36174.84,-1.34,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-19,37789.44,37211.06,1.55,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-20,37425.16,32886.74,13.8,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Pharmacy,2026-09-21,37245.84,33434.15,11.4,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Pharmacy,2026-09-22,35104.82,36113.96,-2.79,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-23,38038.88,35368.33,7.55,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-24,39533.07,36504.17,8.3,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-25,41504.26,36174.69,14.73,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Pharmacy,2026-09-26,39178.62,34386.65,13.94,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Pharmacy,2026-09-27,39451.66,34184.78,15.41,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Pharmacy,2026-09-28,36897.87,36714.75,0.5,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-29,37500.61,38434.77,-2.43,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Pharmacy,2026-09-30,40031.01,40537.95,-1.25,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-08-23,62102.49,76409.31,-18.72,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-08-24,50722.43,74012.01,-31.47,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-08-25,56119.16,70007.28,-19.84,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-08-26,55456.15,70211.54,-21.02,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-08-27,55733.14,69740.3,-20.08,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-08-28,60720.6,71040.01,-14.53,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-08-29,57895.22,66691.28,-13.19,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-08-30,56695.04,63089.18,-10.14,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-08-31,53455.6,62731.68,-14.79,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-01,59744.98,65045.0,-8.15,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-02,54435.48,66680.51,-18.36,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-03,59763.27,64098.9,-6.76,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-04,58991.11,60163.37,-1.95,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-05,56323.62,61482.77,-8.39,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-06,59706.1,62022.12,-3.73,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-07,61034.18,63917.43,-4.51,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-08,58253.6,58486.95,-0.4,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-09,62410.45,54117.03,15.32,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Restaurant,2026-09-10,62297.36,56910.21,9.47,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-11,61695.13,60634.21,1.75,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-12,56246.14,57208.63,-1.68,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-13,58597.12,58040.31,0.96,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-14,52859.62,56292.35,-6.1,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-15,64003.07,57312.64,11.67,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Restaurant,2026-09-16,56865.8,62908.57,-9.61,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-17,61433.06,62237.48,-1.29,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-18,54211.99,58915.12,-7.98,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-19,60896.22,60982.51,-0.14,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-20,61012.7,63514.36,-3.94,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-21,58352.94,64831.69,-9.99,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-22,59841.39,67660.26,-11.56,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-23,52834.9,66941.53,-21.07,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-24,57815.37,66040.26,-12.45,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-25,63826.9,65829.37,-3.04,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-26,60390.1,62946.76,-4.06,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-27,69104.48,60356.01,14.49,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Restaurant,2026-09-28,56253.18,57647.47,-2.42,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-29,57617.85,55906.89,3.06,HIGH,Maintain strong service readiness for the expected high-demand period.
+Restaurant,2026-09-30,59600.19,50128.52,18.89,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Transport,2026-08-23,34766.5,38821.23,-10.44,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-08-24,39012.14,39339.8,-0.83,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-08-25,42177.93,38229.59,10.33,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Transport,2026-08-26,41857.45,38814.86,7.84,HIGH,Maintain strong service readiness for the expected high-demand period.
+Transport,2026-08-27,35516.62,44036.55,-19.35,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-08-28,36655.66,43660.29,-16.04,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-08-29,41910.33,40173.95,4.32,HIGH,Maintain strong service readiness for the expected high-demand period.
+Transport,2026-08-30,39229.71,38023.94,3.17,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-08-31,40280.13,39262.29,2.59,HIGH,Maintain strong service readiness for the expected high-demand period.
+Transport,2026-09-01,40524.72,38623.92,4.92,HIGH,Maintain strong service readiness for the expected high-demand period.
+Transport,2026-09-02,40000.06,37463.77,6.77,HIGH,Maintain strong service readiness for the expected high-demand period.
+Transport,2026-09-03,39743.89,32459.87,22.44,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Transport,2026-09-04,40717.36,31602.43,28.84,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Transport,2026-09-05,36229.19,30374.98,19.27,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Transport,2026-09-06,35420.16,30618.51,15.68,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Transport,2026-09-07,38321.04,27742.18,38.13,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Transport,2026-09-08,32885.19,28234.35,16.47,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Transport,2026-09-09,28709.09,29400.12,-2.35,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Transport,2026-09-10,37251.81,33947.27,9.73,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-09-11,42151.35,35084.07,20.14,HIGH,Prepare for increased transaction demand; review service capacity and merchant readiness.
+Transport,2026-09-12,36262.94,37131.36,-2.34,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-09-13,37755.78,36029.71,4.79,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-09-14,41944.86,43128.07,-2.74,HIGH,Maintain strong service readiness for the expected high-demand period.
+Transport,2026-09-15,39307.66,42493.14,-7.5,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-09-16,40956.84,44034.5,-6.99,HIGH,Maintain strong service readiness for the expected high-demand period.
+Transport,2026-09-17,40289.6,40016.66,0.68,HIGH,Maintain strong service readiness for the expected high-demand period.
+Transport,2026-09-18,40883.1,41785.02,-2.16,HIGH,Maintain strong service readiness for the expected high-demand period.
+Transport,2026-09-19,36315.88,42887.37,-15.32,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-09-20,38981.0,42781.65,-8.88,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-09-21,38226.55,35674.32,7.15,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-09-22,39579.64,35136.93,12.64,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Transport,2026-09-23,32808.46,34147.31,-3.92,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-09-24,35623.16,35922.02,-0.83,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-09-25,36708.82,32453.29,13.11,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Transport,2026-09-26,33197.62,31035.33,6.97,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-09-27,36423.72,32776.57,11.13,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Transport,2026-09-28,35627.21,34089.9,4.51,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-09-29,37949.76,37665.71,0.75,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Transport,2026-09-30,35742.96,38333.89,-6.76,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Utility,2026-08-23,28650.78,30130.37,-4.91,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-08-24,32388.36,28031.93,15.54,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Utility,2026-08-25,31573.23,33024.17,-4.39,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-08-26,30019.5,35296.52,-14.95,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Utility,2026-08-27,35668.97,36681.72,-2.76,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Utility,2026-08-28,32470.17,39589.33,-17.98,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Utility,2026-08-29,31913.69,39406.23,-19.01,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Utility,2026-08-30,33957.62,35356.85,-3.96,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Utility,2026-08-31,33722.5,33895.11,-0.51,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Utility,2026-09-01,31179.88,30760.8,1.36,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-02,32606.82,28554.8,14.19,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Utility,2026-09-03,33216.76,28026.47,18.52,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Utility,2026-09-04,28981.68,26959.3,7.5,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-05,33987.97,28063.99,21.11,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Utility,2026-09-06,27992.48,31051.22,-9.85,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-07,32565.55,33558.02,-2.96,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Utility,2026-09-08,30733.0,33559.75,-8.42,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-09,30743.45,34008.17,-9.6,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-10,30750.93,32477.22,-5.32,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-11,30578.55,31583.22,-3.18,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-12,30179.22,29125.97,3.62,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-13,25100.43,25738.97,-2.48,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-14,34822.83,24823.92,40.28,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Utility,2026-09-15,27515.7,22335.66,23.19,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-16,30411.21,23049.9,31.94,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-17,32916.65,25175.57,30.75,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Utility,2026-09-18,29942.21,23284.26,28.59,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-19,29115.28,26783.15,8.71,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-20,31376.89,31501.87,-0.4,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-21,31629.1,30395.65,4.06,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-22,27163.38,32643.41,-16.79,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Utility,2026-09-23,30189.21,32914.16,-8.28,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-24,30431.84,31161.1,-2.34,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-25,29647.5,33089.28,-10.4,LOW,Expected demand is below the recent average; review engagement opportunities and demand trends.
+Utility,2026-09-26,32277.32,30645.49,5.32,NORMAL,Maintain normal operations and monitor next-day transaction activity.
+Utility,2026-09-27,34894.77,26909.06,29.68,NORMAL,Demand is rising; monitor transaction activity and prepare for possible higher usage.
+Utility,2026-09-28,28881.44,26655.29,8.35,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-29,30773.64,27203.31,13.12,LOW,Demand is relatively low; maintain service availability and monitor changes.
+Utility,2026-09-30,27565.44,23824.56,15.7,LOW,Demand is relatively low; maintain service availability and monitor changes.
