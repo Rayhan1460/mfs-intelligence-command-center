@@ -1,6 +1,5 @@
 from fastapi.testclient import TestClient
 
-from app.main import app
 from app.repositories.artifacts import (
     ArtifactRepository,
     ArtifactUnavailableError,
@@ -8,7 +7,6 @@ from app.repositories.artifacts import (
 )
 from app.services.intelligence import _churn_by_merchant
 
-client = TestClient(app)
 FORBIDDEN_RESPONSE_KEYS = {
     "actual_churn",
     "predicted_churn",
@@ -36,7 +34,7 @@ def assert_no_forbidden_keys(value) -> None:
             assert_no_forbidden_keys(child)
 
 
-def test_merchant_list_pagination_and_overview() -> None:
+def test_merchant_list_pagination_and_overview(client: TestClient) -> None:
     first_page = client.get("/api/v1/merchants", params={"limit": 2, "offset": 0})
     second_page = client.get("/api/v1/merchants", params={"limit": 2, "offset": 2})
 
@@ -54,7 +52,7 @@ def test_merchant_list_pagination_and_overview() -> None:
     assert_no_forbidden_keys(overview.json())
 
 
-def test_demand_category_forecasts_and_merchant_inherited_forecast() -> None:
+def test_demand_category_forecasts_and_merchant_inherited_forecast(client: TestClient) -> None:
     forecasts = client.get("/api/v1/demand/forecasts", params={"merchant_category": "Healthcare"})
     assert forecasts.status_code == 200
     assert forecasts.json()["forecast_scope"] == "merchant_category"
@@ -71,7 +69,7 @@ def test_demand_category_forecasts_and_merchant_inherited_forecast() -> None:
     assert_no_forbidden_keys(forecast.json())
 
 
-def test_churn_benchmark_and_growth_responses() -> None:
+def test_churn_benchmark_and_growth_responses(client: TestClient) -> None:
     repository = get_artifact_repository()
     churn_matches = _churn_by_merchant(repository)
     assert len(churn_matches) == 771
@@ -107,7 +105,7 @@ def test_churn_benchmark_and_growth_responses() -> None:
     assert_no_forbidden_keys(growth.json())
 
 
-def test_agent_list_overview_liquidity_and_performance() -> None:
+def test_agent_list_overview_liquidity_and_performance(client: TestClient) -> None:
     agents = client.get("/api/v1/agents", params={"limit": 3})
     assert agents.status_code == 200
     assert agents.json()["total"] == 800
@@ -144,7 +142,7 @@ def test_agent_list_overview_liquidity_and_performance() -> None:
     assert performance.json()["performance_score"] is not None
 
 
-def test_agent_anomalies_are_review_signals_only() -> None:
+def test_agent_anomalies_are_review_signals_only(client: TestClient) -> None:
     anomalies = client.get("/api/v1/agents/AGT00001/anomalies")
     assert anomalies.status_code == 200
     assert anomalies.json()["statement"] == (
@@ -153,7 +151,7 @@ def test_agent_anomalies_are_review_signals_only() -> None:
     assert "fraud" not in " ".join(anomalies.json()["flags"]).casefold()
 
 
-def test_location_opportunities_and_filters() -> None:
+def test_location_opportunities_and_filters(client: TestClient) -> None:
     all_locations = client.get("/api/v1/locations/opportunities")
     assert all_locations.status_code == 200
     assert all_locations.json()["total"] == 120
@@ -172,7 +170,7 @@ def test_location_opportunities_and_filters() -> None:
     )
 
 
-def test_unknown_entities_and_invalid_queries() -> None:
+def test_unknown_entities_and_invalid_queries(client: TestClient) -> None:
     unknown_merchant = client.get("/api/v1/merchants/MRC999999/overview")
     unknown_agent = client.get("/api/v1/agents/AGT999999/overview")
     assert unknown_merchant.status_code == 404
@@ -192,7 +190,7 @@ def test_unknown_entities_and_invalid_queries() -> None:
     assert invalid_date.status_code == 422
 
 
-def test_artifact_and_internal_errors_are_sanitized(monkeypatch) -> None:
+def test_artifact_and_internal_errors_are_sanitized(client: TestClient, monkeypatch) -> None:
     def unavailable(self, name):
         raise ArtifactUnavailableError(f"test artifact {name} unavailable for {type(self).__name__}")
 
@@ -208,8 +206,7 @@ def test_artifact_and_internal_errors_are_sanitized(monkeypatch) -> None:
         )
 
     monkeypatch.setattr(ArtifactRepository, "rows", broken)
-    safe_client = TestClient(app, raise_server_exceptions=False)
-    internal = safe_client.get("/api/v1/merchants")
+    internal = client.get("/api/v1/merchants")
     assert internal.status_code == 500
     assert internal.json()["code"] == "internal_error"
     assert "private" not in internal.text

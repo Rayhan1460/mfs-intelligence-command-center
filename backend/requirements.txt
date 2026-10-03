@@ -4,3 +4,5 @@ pydantic-settings>=2.7,<3.0
 sqlalchemy>=2.0,<3.0
 alembic>=1.14,<2.0
 psycopg[binary]>=3.2,<4.0
+argon2-cffi>=23.1,<26.0
+email-validator>=2.2,<3.0

@@ -4,9 +4,11 @@ from fastapi import APIRouter, Depends, Query
 
 from app.core.errors import APIError
 from app.repositories.artifacts import ArtifactRepository, get_artifact_repository
+from app.security.dependencies import enforce_entity_scope, get_current_user, require_roles
 from app.services.intelligence import IntelligenceService
 
-router = APIRouter()
+MERCHANT_READ_ROLES = ("ADMIN", "ANALYST", "REGIONAL_MANAGER", "MERCHANT", "JUDGE")
+router = APIRouter(dependencies=[Depends(require_roles(*MERCHANT_READ_ROLES))])
 Limit = Annotated[int, Query(ge=1, le=100)]
 Offset = Annotated[int, Query(ge=0)]
 
@@ -25,7 +27,12 @@ def list_merchants(
     district: str | None = None,
     status: str | None = None,
     intelligence: IntelligenceService = Depends(service),
+    user=Depends(get_current_user),
 ):
+    if user.role == "MERCHANT":
+        entity = intelligence.merchant_identity(user.linked_entity_id or "")
+        items = [entity] if entity else []
+        return {"items": items, "total": len(items), "limit": limit, "offset": 0}
     return intelligence.merchants(
         limit=limit,
         offset=offset,
@@ -38,7 +45,12 @@ def list_merchants(
 
 
 @router.get("/{merchant_id}/overview")
-def merchant_overview(merchant_id: str, intelligence: IntelligenceService = Depends(service)):
+def merchant_overview(
+    merchant_id: str,
+    intelligence: IntelligenceService = Depends(service),
+    user=Depends(get_current_user),
+):
+    enforce_entity_scope(user, "merchant", merchant_id)
     result = intelligence.merchant_overview(merchant_id)
     if result is None:
         raise APIError(404, "entity_not_found", "Merchant not found.")
@@ -46,7 +58,12 @@ def merchant_overview(merchant_id: str, intelligence: IntelligenceService = Depe
 
 
 @router.get("/{merchant_id}/forecast")
-def merchant_forecast(merchant_id: str, intelligence: IntelligenceService = Depends(service)):
+def merchant_forecast(
+    merchant_id: str,
+    intelligence: IntelligenceService = Depends(service),
+    user=Depends(get_current_user),
+):
+    enforce_entity_scope(user, "merchant", merchant_id)
     result = intelligence.merchant_forecast(merchant_id)
     if result is None:
         raise APIError(404, "entity_not_found", "Merchant not found.")
@@ -54,7 +71,12 @@ def merchant_forecast(merchant_id: str, intelligence: IntelligenceService = Depe
 
 
 @router.get("/{merchant_id}/churn-risk")
-def merchant_churn(merchant_id: str, intelligence: IntelligenceService = Depends(service)):
+def merchant_churn(
+    merchant_id: str,
+    intelligence: IntelligenceService = Depends(service),
+    user=Depends(get_current_user),
+):
+    enforce_entity_scope(user, "merchant", merchant_id)
     result = intelligence.churn_risk(merchant_id)
     if result is None:
         raise APIError(404, "entity_not_found", "Merchant not found.")
@@ -62,7 +84,12 @@ def merchant_churn(merchant_id: str, intelligence: IntelligenceService = Depends
 
 
 @router.get("/{merchant_id}/benchmark")
-def merchant_benchmark(merchant_id: str, intelligence: IntelligenceService = Depends(service)):
+def merchant_benchmark(
+    merchant_id: str,
+    intelligence: IntelligenceService = Depends(service),
+    user=Depends(get_current_user),
+):
+    enforce_entity_scope(user, "merchant", merchant_id)
     result = intelligence.merchant_benchmark(merchant_id)
     if result is None:
         raise APIError(404, "entity_not_found", "Merchant not found.")
@@ -70,7 +97,12 @@ def merchant_benchmark(merchant_id: str, intelligence: IntelligenceService = Dep
 
 
 @router.get("/{merchant_id}/recommendations")
-def merchant_recommendation(merchant_id: str, intelligence: IntelligenceService = Depends(service)):
+def merchant_recommendation(
+    merchant_id: str,
+    intelligence: IntelligenceService = Depends(service),
+    user=Depends(get_current_user),
+):
+    enforce_entity_scope(user, "merchant", merchant_id)
     result = intelligence.merchant_recommendation(merchant_id)
     if result is None:
         raise APIError(404, "entity_not_found", "Merchant not found.")

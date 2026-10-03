@@ -3,9 +3,10 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Query
 
 from app.repositories.artifacts import ArtifactRepository, get_artifact_repository
+from app.security.dependencies import PUBLIC_ROLES, require_roles
 from app.services.intelligence import IntelligenceService
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(require_roles(*PUBLIC_ROLES))])
 Limit = Annotated[int, Query(ge=1, le=100)]
 Offset = Annotated[int, Query(ge=0)]
 

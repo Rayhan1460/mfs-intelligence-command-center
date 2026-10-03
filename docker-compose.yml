@@ -27,6 +27,8 @@ services:
       - .env
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-mfs}:${POSTGRES_PASSWORD:-change-this-local-password}@db:5432/${POSTGRES_DB:-mfs_intelligence}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:3000}
     ports:
       - "8000:8000"
     depends_on:
