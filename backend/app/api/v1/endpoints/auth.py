@@ -40,7 +40,8 @@ def _cookie_secure() -> bool:
 
 def _check_login_origin(request: Request) -> None:
     origin = request.headers.get("origin")
-    if origin and origin.rstrip("/") != settings.frontend_origin.rstrip("/"):
+    allowed = {settings.frontend_origin.rstrip("/"), *[o.rstrip("/") for o in settings.cors_origins]}
+    if origin and origin.rstrip("/") not in allowed:
         raise APIError(403, "origin_not_allowed", "The request origin is not allowed.")
 
 
@@ -68,8 +69,11 @@ def login(
         raise APIError(429, "login_throttled", "Too many failed login attempts. Try again later.")
 
     user = session.scalar(select(User).where(User.email == str(payload.email).casefold()))
+    if user is not None and not user.is_active:
+        raise APIError(401, "inactive_account", "This account is currently inactive.")
+
     valid_password = bool(user and verify_password(user.password_hash, payload.password))
-    if user is None or not user.is_active or not valid_password:
+    if user is None or not valid_password:
         record_login_failure(throttle_key)
         record_audit_event(
             session,

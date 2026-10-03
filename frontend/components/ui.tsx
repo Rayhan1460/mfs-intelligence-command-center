@@ -1,7 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
-import { AlertTriangle, ArrowDownRight, ArrowUpRight, BrainCircuit, ChevronLeft, ChevronRight, CircleDot, ClipboardList, Command, LoaderCircle, LogOut, MapPinned, Menu, Search, ShieldCheck, Sparkles, Store, UsersRound } from "lucide-react";
+import {
+  AlertTriangle, ArrowDownRight, ArrowUpRight, BrainCircuit, ChevronLeft, ChevronRight,
+  CircleDot, ClipboardList, Command, Globe, LoaderCircle, LogOut, MapPinned, Menu, MessageCircle,
+  Search, ShieldCheck, Sparkles, Store, UsersRound
+} from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -9,21 +13,25 @@ import { usePathname, useRouter } from "next/navigation";
 import { apiFetch, friendlyError } from "@/lib/api";
 import type { Intervention, Role } from "@/lib/types";
 import { useAuth } from "@/providers/AuthProvider";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 export function SyntheticBadge() {
-  return <span className="badge badge-synthetic"><span className="pulse-dot" /> Synthetic demo</span>;
+  const { t } = useLanguage();
+  return <span className="badge badge-synthetic"><span className="pulse-dot" /> {t("shell.synthetic_badge", "Synthetic demo")}</span>;
 }
 
 export function HumanReviewBadge() {
-  return <span className="badge badge-review"><ShieldCheck size={13} /> Human review required</span>;
+  const { t } = useLanguage();
+  return <span className="badge badge-review"><ShieldCheck size={13} /> {t("shell.review_required", "Review Before Action")}</span>;
 }
 
-export function SourceBadge({ children = "Batch intelligence" }: { children?: ReactNode }) {
-  return <span className="badge badge-source"><CircleDot size={12} />{children}</span>;
+export function SourceBadge({ children }: { children?: ReactNode }) {
+  const { t } = useLanguage();
+  return <span className="badge badge-source"><CircleDot size={12} />{children ?? t("shell.latest_data", "Latest Analyzed Data")}</span>;
 }
 
 export function RiskBadge({ value }: { value?: string | number | boolean | null }) {
-  if (value === undefined || value === null || value === "") return <span className="muted">Not supplied</span>;
+  if (value === undefined || value === null || value === "") return <span className="muted">No Data Available</span>;
   const text = typeof value === "boolean" ? (value ? "Flagged" : "Clear") : String(value).replaceAll("_", " ");
   const lowered = text.toLowerCase();
   const tone = /critical|high|flagged|declining|needs attention/.test(lowered)
@@ -68,16 +76,19 @@ export function SearchInput({ value, onChange, placeholder = "Search" }: { value
 export function Pagination({ total, limit, offset, onChange }: { total: number; limit: number; offset: number; onChange: (value: number) => void }) {
   const page = Math.floor(offset / limit) + 1;
   const pageCount = Math.max(1, Math.ceil(total / limit));
-  return <div className="pagination"><span>{total ? `${offset + 1}-${Math.min(offset + limit, total)} of ${total}` : "0 results"}</span><div><button className="icon-button" aria-label="Previous page" disabled={page <= 1} onClick={() => onChange(Math.max(0, offset - limit))}><ChevronLeft size={17} /></button><span className="pagination-page">{page} / {pageCount}</span><button className="icon-button" aria-label="Next page" disabled={page >= pageCount} onClick={() => onChange(offset + limit)}><ChevronRight size={17} /></button></div></div>;
+  return <div className="pagination"><span>{total ? `${offset + 1}–${Math.min(offset + limit, total)} of ${total}` : "0 results"}</span><div><button className="icon-button" aria-label="Previous page" disabled={page <= 1} onClick={() => onChange(Math.max(0, offset - limit))}><ChevronLeft size={17} /></button><span className="pagination-page">{page} / {pageCount}</span><button className="icon-button" aria-label="Next page" disabled={page >= pageCount} onClick={() => onChange(offset + limit)}><ChevronRight size={17} /></button></div></div>;
 }
 
-export function DataTable({ columns, rows, rowKey, onRowClick }: { columns: { key: string; label: string; render?: (row: Record<string, unknown>) => ReactNode }[]; rows: Record<string, unknown>[]; rowKey: string; onRowClick?: (row: Record<string, unknown>) => void }) {
-  return <div className="table-wrap"><table><thead><tr>{columns.map((column) => <th key={column.key}>{column.label}</th>)}</tr></thead><tbody>{rows.map((row, index) => <tr key={String(row[rowKey] ?? index)} onClick={() => onRowClick?.(row)} tabIndex={onRowClick ? 0 : undefined} onKeyDown={(event) => { if (onRowClick && (event.key === "Enter" || event.key === " ")) onRowClick(row); }}>{columns.map((column) => <td key={column.key}>{column.render ? column.render(row) : String(row[column.key] ?? "—")}</td>)}</tr>)}</tbody></table></div>;
+export function DataTable({ columns, rows, rowKey, onRowClick, selectedKey }: { columns: { key: string; label: string; render?: (row: Record<string, unknown>) => ReactNode }[]; rows: Record<string, unknown>[]; rowKey: string; onRowClick?: (row: Record<string, unknown>) => void; selectedKey?: string }) {
+  return <div className="table-wrap"><table><thead><tr>{columns.map((column) => <th key={column.key}>{column.label}</th>)}</tr></thead><tbody>{rows.map((row, index) => {
+    const isSelected = selectedKey !== undefined && String(row[rowKey] ?? "") === selectedKey;
+    return <tr key={String(row[rowKey] ?? index)} className={isSelected ? "row-selected" : ""} onClick={() => onRowClick?.(row)} tabIndex={onRowClick ? 0 : undefined} onKeyDown={(event) => { if (onRowClick && (event.key === "Enter" || event.key === " ")) onRowClick(row); }}>{columns.map((column) => <td key={column.key}>{column.render ? column.render(row) : String(row[column.key] ?? "—")}</td>)}</tr>;
+  })}</tbody></table></div>;
 }
 
 export function AnimatedSection({ children, className = "" }: { children: ReactNode; className?: string }) {
   const reduce = useReducedMotion();
-  return <motion.section className={className} initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduce ? 0 : 0.45, ease: "easeOut" }}>{children}</motion.section>;
+  return <motion.section className={className} initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduce ? 0 : 0.42, ease: "easeOut" }}>{children}</motion.section>;
 }
 
 export function IntelligenceHalo({ kind, segments }: { kind: "merchant" | "agent"; segments: string[] }) {
@@ -90,17 +101,56 @@ export function IntelligenceHalo({ kind, segments }: { kind: "merchant" | "agent
   </div>;
 }
 
+export function LanguageSwitcher() {
+  const { language, setLanguage } = useLanguage();
+  const reduce = useReducedMotion();
+
+  return (
+    <div className="lang-switcher" role="group" aria-label="Language selection">
+      <Globe size={13} className="lang-icon" aria-hidden="true" />
+      <div className="lang-pill">
+        <button
+          type="button"
+          className={`lang-btn ${language === "en" ? "active" : ""}`}
+          onClick={() => setLanguage("en")}
+          aria-pressed={language === "en"}
+        >
+          EN
+        </button>
+        <button
+          type="button"
+          className={`lang-btn ${language === "bn" ? "active" : ""}`}
+          onClick={() => setLanguage("bn")}
+          aria-pressed={language === "bn"}
+        >
+          বাংলা
+        </button>
+        <motion.span
+          className="lang-slider"
+          layout
+          transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 450, damping: 32 }}
+          style={{
+            left: language === "en" ? "2px" : "calc(50% + 1px)",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 const NAV_ITEMS = [
-  { href: "/command-center", label: "Command Center", icon: Command, roles: ["ADMIN", "ANALYST", "REGIONAL_MANAGER", "JUDGE"] },
-  { href: "/merchants", label: "Merchants", icon: Store, roles: ["ADMIN", "ANALYST", "REGIONAL_MANAGER", "MERCHANT", "JUDGE"] },
-  { href: "/agents", label: "Agents", icon: UsersRound, roles: ["ADMIN", "ANALYST", "REGIONAL_MANAGER", "AGENT", "JUDGE"] },
-  { href: "/locations", label: "Locations", icon: MapPinned, roles: ["ADMIN", "ANALYST", "REGIONAL_MANAGER", "JUDGE"] },
-  { href: "/interventions", label: "Action Center", icon: ClipboardList, roles: ["ADMIN", "ANALYST", "REGIONAL_MANAGER", "MERCHANT", "AGENT", "JUDGE"] },
-  { href: "/models", label: "Models / Responsible AI", icon: BrainCircuit, roles: ["ADMIN", "JUDGE"] },
+  { href: "/command-center", key: "command_center", label: "Command Center", icon: Command, roles: ["ADMIN", "ANALYST", "REGIONAL_MANAGER", "JUDGE"] },
+  { href: "/merchants", key: "merchants", label: "Merchants", icon: Store, roles: ["ADMIN", "ANALYST", "REGIONAL_MANAGER", "MERCHANT", "JUDGE"] },
+  { href: "/agents", key: "agents", label: "Agents", icon: UsersRound, roles: ["ADMIN", "ANALYST", "REGIONAL_MANAGER", "AGENT", "JUDGE"] },
+  { href: "/locations", key: "locations", label: "Locations", icon: MapPinned, roles: ["ADMIN", "ANALYST", "REGIONAL_MANAGER", "JUDGE"] },
+  { href: "/ai-assistant", key: "ai_assistant", label: "AI Copilot", icon: MessageCircle, roles: ["ADMIN", "ANALYST", "REGIONAL_MANAGER", "MERCHANT", "AGENT", "JUDGE"] },
+  { href: "/interventions", key: "interventions", label: "Action Review", icon: ClipboardList, roles: ["ADMIN", "ANALYST", "REGIONAL_MANAGER", "MERCHANT", "AGENT", "JUDGE"] },
+  { href: "/models", key: "models", label: "AI Models & Decision Rules", icon: BrainCircuit, roles: ["ADMIN", "JUDGE"] },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { user, loading, logout } = useAuth();
+  const { t } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -116,23 +166,81 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
 
   const items = NAV_ITEMS.filter((item) => item.roles.includes(user.role));
-  const currentTitle = items.find((item) => pathname.startsWith(item.href))?.label ?? "Intelligence Workspace";
+  const activeItem = items.find((item) => pathname.startsWith(item.href));
+  const currentTitle = activeItem ? t(`nav.${activeItem.key}`, activeItem.label) : "Intelligence Workspace";
+
   const nav = <nav className="side-nav" aria-label="Primary navigation">
-    <Link className="brand-lockup" href="/command-center"><span className="brand-mark">M<span>F</span></span><span className="brand-name">MFS<span>INTELLIGENCE</span></span></Link>
-    <div className="nav-section-label">Workspace</div>
-    {items.map((item, index) => <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} className={`nav-link ${pathname.startsWith(item.href) ? "active" : ""}`}>
-      <span className="nav-index">0{index + 1}</span><span className="nav-icon"><item.icon size={16} aria-hidden="true" /></span><span>{item.label}</span>
-    </Link>)}
-    <div className="sidebar-bottom"><SyntheticBadge /><div className="sidebar-footnote">TRACK 05 <span>Merchant & Agent Intelligence</span></div></div>
+    <Link className="brand-lockup" href="/command-center">
+      <span className="brand-mark">M<span>F</span></span>
+      <span className="brand-name">MFS<span>INTELLIGENCE</span></span>
+    </Link>
+    <div className="nav-section-label">{t("shell.workspace")}</div>
+    {items.map((item, index) => {
+      const active = pathname.startsWith(item.href);
+      return (
+        <Link
+          key={item.href}
+          href={item.href}
+          onClick={() => setMobileOpen(false)}
+          className={`nav-link ${active ? "active" : ""}`}
+        >
+          <span className="nav-index">0{index + 1}</span>
+          <span className="nav-icon"><item.icon size={16} aria-hidden="true" /></span>
+          <span>{t(`nav.${item.key}`, item.label)}</span>
+          {active && <span className="nav-active-pill" aria-hidden="true" />}
+        </Link>
+      );
+    })}
+    <div className="sidebar-bottom">
+      <SyntheticBadge />
+      <div className="sidebar-footnote">{t("shell.track")} <span>{t("shell.track_desc")}</span></div>
+    </div>
   </nav>;
 
   return <div className="app-frame">
+    {/* Animated background */}
+    <div className="ambient-root" aria-hidden="true" />
+
     <aside className="sidebar-desktop">{nav}</aside>
     <AnimatePresence>{mobileOpen && <motion.div className="mobile-nav-layer" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileOpen(false)}><motion.aside className="mobile-sidebar" initial={reduce ? false : { x: -280 }} animate={{ x: 0 }} exit={{ x: -280 }} onClick={(event) => event.stopPropagation()}>{nav}</motion.aside></motion.div>}</AnimatePresence>
+
     <div className="workspace-column">
-      <header className="topbar"><div className="topbar-orbit" aria-hidden="true"><span /><span /><span /></div><button className="mobile-menu icon-button" aria-label="Open navigation" onClick={() => setMobileOpen(true)}><Menu size={18} /></button><div className="topbar-context"><span className="topbar-kicker">OPERATIONS INTELLIGENCE</span><strong>{currentTitle}</strong></div><div className="topbar-pulse"><span className="live-dot" /> BATCH SIGNALS <span className="pulse-track"><i /></span></div><div className="topbar-profile"><div className="profile-avatar">{user.display_name.slice(0, 1).toUpperCase()}</div><div className="profile-copy"><strong>{user.display_name}</strong><span>{user.role.replaceAll("_", " ")}</span></div><button className="icon-button logout-button" onClick={() => void logout()} aria-label="Sign out" title="Sign out"><LogOut size={16} /></button></div></header>
-      <div className="global-ribbon"><SyntheticBadge /><span>Decision support only</span><span className="ribbon-separator">·</span><HumanReviewBadge /></div>
-      <main className="workspace-main"><AnimatePresence mode="wait"><motion.div key={pathname} initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: reduce ? 0 : 0.24 }}>{children}</motion.div></AnimatePresence></main>
+      <header className="topbar">
+        <div className="topbar-orbit" aria-hidden="true"><span /><span /><span /></div>
+        <button className="mobile-menu icon-button" aria-label="Open navigation" onClick={() => setMobileOpen(true)}><Menu size={18} /></button>
+        <div className="topbar-context">
+          <span className="topbar-kicker">{t("shell.kicker")}</span>
+          <strong>{currentTitle}</strong>
+        </div>
+        <div className="topbar-pulse">
+          <span className="live-dot" /> {t("shell.latest_data")} <span className="pulse-track"><i /></span>
+        </div>
+
+        {/* Animated Language Switcher */}
+        <LanguageSwitcher />
+
+        <div className="topbar-profile">
+          <div className="profile-avatar">{user.display_name.slice(0, 1).toUpperCase()}</div>
+          <div className="profile-copy">
+            <strong>{user.display_name}</strong>
+            <span>{user.role.replaceAll("_", " ")}</span>
+          </div>
+          <button className="icon-button logout-button" onClick={() => void logout()} aria-label={t("shell.logout")} title={t("shell.logout")}><LogOut size={16} /></button>
+        </div>
+      </header>
+      <div className="global-ribbon">
+        <SyntheticBadge />
+        <span>{t("shell.decision_support")}</span>
+        <span className="ribbon-separator">·</span>
+        <HumanReviewBadge />
+      </div>
+      <main className="workspace-main">
+        <AnimatePresence mode="wait">
+          <motion.div key={pathname} initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: reduce ? 0 : 0.22 }}>
+            {children}
+          </motion.div>
+        </AnimatePresence>
+      </main>
     </div>
   </div>;
 }
@@ -163,8 +271,8 @@ export function InterventionComposer({ targetType, targetId, capability, recomme
   }
 
   return <>
-    <button className="button button-gold" onClick={() => setOpen(true)}>Propose for review <ArrowUpRight size={15} /></button>
-    <AnimatePresence>{open && <motion.div className="dialog-backdrop" role="presentation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}><motion.div className="dialog" role="dialog" aria-modal="true" aria-labelledby="intervention-title" initial={reduce ? false : { opacity: 0, y: 14, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 8 }}><button className="dialog-close icon-button" onClick={() => setOpen(false)} aria-label="Close">×</button><p className="eyebrow">HUMAN ACTION CENTER</p><h2 id="intervention-title">Propose an intervention</h2><p className="muted">This records a proposal only. It does not execute operational or financial actions.</p><form onSubmit={submit} className="form-stack"><label>Recommended action<textarea name="action" required defaultValue={recommendation} maxLength={2000} /></label><label>Reason for review<textarea name="reason" required defaultValue={reason} maxLength={4000} /></label>{message && <p className="form-message">{message}</p>}<button className="button button-gold" disabled={busy}>{busy ? "Submitting…" : "Submit proposal"}</button></form></motion.div></motion.div>}</AnimatePresence>
+    <button className="button button-gold" onClick={() => setOpen(true)}>Create Review Proposal <ArrowUpRight size={15} /></button>
+    <AnimatePresence>{open && <motion.div className="dialog-backdrop" role="presentation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}><motion.div className="dialog" role="dialog" aria-modal="true" aria-labelledby="intervention-title" initial={reduce ? false : { opacity: 0, y: 14, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 8 }}><button className="dialog-close icon-button" onClick={() => setOpen(false)} aria-label="Close">×</button><p className="eyebrow">ACTION REVIEW</p><h2 id="intervention-title">Create Review Proposal</h2><p className="muted">This records a proposal only. Nothing here moves money or changes merchant, agent or customer status automatically.</p><form onSubmit={submit} className="form-stack"><label>Recommended action<textarea name="action" required defaultValue={recommendation} maxLength={2000} /></label><label>Reason for review<textarea name="reason" required defaultValue={reason} maxLength={4000} /></label>{message && <p className="form-message">{message}</p>}<button className="button button-primary" disabled={busy}>{busy ? "Submitting…" : "Submit proposal"}</button></form></motion.div></motion.div>}</AnimatePresence>
     {message && !open && <span className="inline-success">{message}</span>}
   </>;
 }
@@ -197,7 +305,7 @@ export function FeedbackForm({ entityType, entityId, capability }: { entityType:
 }
 
 export function MetricValue({ value, unit }: { value: unknown; unit?: string }) {
-  if (value === null || value === undefined || value === "") return <span className="metric-unavailable">Not supplied</span>;
+  if (value === null || value === undefined || value === "") return <span className="metric-unavailable">No Data Available</span>;
   if (typeof value !== "number") return <span>{String(value)}</span>;
   return <span>{new Intl.NumberFormat("en", { maximumFractionDigits: 2 }).format(value)}{unit ? <small>{unit}</small> : null}</span>;
 }

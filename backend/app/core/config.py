@@ -21,7 +21,7 @@ class Settings(BaseSettings):
         "postgresql+psycopg://mfs:change-this-local-password"
         "@localhost:5432/mfs_intelligence"
     )
-    cors_origins: list[str] = ["http://localhost:3000"]
+    cors_origins: list[str] = ["http://127.0.0.1:3000", "http://localhost:3000"]
     source_assets_root: Path = Field(
         default=DEFAULT_SOURCE_ROOT,
         validation_alias="SOURCE_ASSETS_ROOT",
@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     session_ttl_minutes: int = Field(default=480, ge=1, le=10080)
     session_cookie_secure: bool = False
     session_cookie_samesite: Literal["lax", "strict", "none"] = "lax"
-    frontend_origin: str = "http://localhost:3000"
+    frontend_origin: str = "http://127.0.0.1:3000"
 
     model_config = SettingsConfigDict(
         env_file=REPOSITORY_ROOT / ".env",

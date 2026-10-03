@@ -10,12 +10,16 @@ import { ApiError, apiFetch } from "@/lib/api";
 import { useAuth } from "@/providers/AuthProvider";
 
 function loginMessage(error: unknown) {
-  if (!(error instanceof ApiError)) return "The secure service is unavailable. Try again in a moment.";
-  if (error.status === 429) return "Too many attempts. Wait a little before trying again.";
-  if (error.status === 401) return "Those sign-in details could not be verified. Check your password and confirm the account is active.";
+  if (!(error instanceof ApiError)) return "Sign-in service is temporarily unavailable.";
+  if (error.status === 0) return "Sign-in service is temporarily unavailable.";
+  if (error.status === 429) return "Too many sign-in attempts. Please try again shortly.";
+  if (error.status === 401) {
+    if (error.code === "inactive_account") return "This account is currently inactive.";
+    return "Check your email and password and try again.";
+  }
   if (error.status === 403) return "This sign-in request could not be accepted.";
-  if (error.status >= 500) return "The secure service is having trouble. Try again shortly.";
-  return "Check your sign-in details and try again.";
+  if (error.status >= 500) return "Sign-in service is temporarily unavailable.";
+  return "Check your email and password and try again.";
 }
 
 export default function LoginPage() {

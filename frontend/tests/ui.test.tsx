@@ -62,16 +62,16 @@ describe("Phase 4 frontend behavior", () => {
     fireEvent.change(screen.getByLabelText("Email"), { target: { value: "judge@example.test" } });
     fireEvent.change(screen.getByLabelText("Password"), { target: { value: "fake-test-value" } });
     fireEvent.submit(screen.getByRole("button", { name: /sign in/i }).closest("form")!);
-    expect(await screen.findByRole("alert")).toHaveTextContent("Too many attempts");
+    expect(await screen.findByRole("alert")).toHaveTextContent(/Too many (sign-in )?attempts/);
     expect(screen.queryByText("private server detail")).not.toBeInTheDocument();
   });
 
   it("renders role-appropriate links but leaves backend authorization authoritative", () => {
     mockAuth.user = user("ANALYST");
     render(<AppShell><div>Protected content</div></AppShell>);
-    expect(screen.getByRole("link", { name: /merchants/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /agents/i })).toBeInTheDocument();
-    expect(screen.queryByRole("link", { name: /models \/ responsible ai/i })).not.toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /merchants/i })[0]).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /agents/i })[0]).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /models|responsible ai/i })).not.toBeInTheDocument();
     expect(screen.getByText("Protected content")).toBeInTheDocument();
   });
 

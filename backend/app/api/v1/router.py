@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from app.api.v1.endpoints.health import router as health_router
 from app.api.v1.endpoints.auth import identity_router, router as auth_router
 from app.domains.agents.router import router as agents_router
+from app.domains.assistant.router import router as assistant_router
 from app.domains.demand.router import router as demand_router
 from app.domains.feedback.router import router as feedback_router
 from app.domains.interventions.router import router as interventions_router
@@ -21,3 +22,4 @@ api_router.include_router(locations_router, prefix="/locations", tags=["location
 api_router.include_router(interventions_router, prefix="/interventions", tags=["interventions"])
 api_router.include_router(feedback_router, prefix="/feedback", tags=["feedback"])
 api_router.include_router(registry_router, prefix="/admin", tags=["model registry"])
+api_router.include_router(assistant_router, prefix="/assistant", tags=["ai assistant"])

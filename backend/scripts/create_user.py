@@ -13,17 +13,21 @@ ROLES = {"ADMIN", "ANALYST", "REGIONAL_MANAGER", "MERCHANT", "AGENT", "JUDGE"}
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Create a demo or operator account.")
+    parser = argparse.ArgumentParser(description="Create or reset a demo or operator account.")
     parser.add_argument("--email", required=True)
-    parser.add_argument("--display-name", required=True)
-    parser.add_argument("--role", required=True, choices=sorted(ROLES))
+    parser.add_argument("--display-name", required=False)
+    parser.add_argument("--role", required=False, choices=sorted(ROLES))
     parser.add_argument("--linked-entity-id")
+    parser.add_argument("--reset-password", action="store_true", help="Reset password for an existing account.")
     args = parser.parse_args()
+
+    if not args.reset_password and (not args.display_name or not args.role):
+        parser.error("--display-name and --role are required when creating a new account.")
 
     linked_type = args.role.casefold() if args.role in {"MERCHANT", "AGENT"} else None
     if linked_type and not args.linked_entity_id:
         parser.error("Merchant and agent users require --linked-entity-id.")
-    if args.role not in {"MERCHANT", "AGENT"} and args.linked_entity_id:
+    if args.role and args.role not in {"MERCHANT", "AGENT"} and args.linked_entity_id:
         parser.error("--linked-entity-id is only valid for Merchant or Agent roles.")
 
     password = getpass("Password (minimum 12 characters): ")
@@ -39,8 +43,22 @@ def main() -> None:
         parser.error("The linked agent ID does not exist in the canonical agent data.")
 
     with SessionLocal() as session:
-        if session.scalar(select(User.id).where(User.email == email)):
-            parser.error("A user with this email already exists.")
+        existing = session.scalar(select(User).where(User.email == email))
+        if args.reset_password:
+            if not existing:
+                parser.error(f"User {email} does not exist.")
+            existing.password_hash = hash_password(password)
+            existing.is_active = True
+            if args.display_name:
+                existing.display_name = args.display_name
+            if args.role:
+                existing.role = args.role
+            session.commit()
+            print(f"Password reset successfully for {email}.")
+            return
+
+        if existing:
+            parser.error("A user with this email already exists. Use --reset-password to update their password.")
         user = User(
             email=email,
             password_hash=hash_password(password),

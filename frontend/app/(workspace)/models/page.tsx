@@ -29,14 +29,14 @@ function ModelCard({ model }: { model: RegistryModel }) {
 export default function ModelsPage() {
   const resource = useApi<PageResult<RegistryModel>>("/api/v1/admin/models");
   return <>
-    <PageHeader eyebrow="RESPONSIBLE AI / 06" title="Models & engines" description="Verified capability metadata and documented evaluation values from the supplied registry. No confidence, SHAP, or unsupported metrics are inferred here." actions={<><SyntheticBadge /><SourceBadge>Verified registry API</SourceBadge></>} />
+    <PageHeader eyebrow="RESPONSIBLE AI" title="AI Models & Decision Rules" description="Verified capability metadata and documented evaluation values from the supplied registry. No confidence, SHAP, or unsupported metrics are inferred here." actions={<><SyntheticBadge /><SourceBadge>Verified registry API</SourceBadge></>} />
     {resource.status === "loading" && <LoadingState label="Loading verified model registry" />}
     {resource.status === "error" && <ErrorState message={resource.error} onRetry={resource.retry} />}
     {resource.status === "success" && resource.data.items.length === 0 && <EmptyState title="Registry unavailable" detail="The model registry API returned no capability records." />}
     {resource.status === "success" && <>
-      <div className="registry-group-label"><span>ML MODELS</span><i /> Merchant Demand · Merchant Churn · Agent Liquidity</div>
+      <div className="registry-group-label"><span>Predictive AI Models</span><i /> Merchant Demand · Merchant Inactivity · Agent Liquidity</div>
       <div className="model-grid">{resource.data.items.filter((model) => model.engine_type.startsWith("ML:")).map((model) => <ModelCard model={model} key={model.capability} />)}</div>
-      <div className="registry-group-label"><span>RULE / PEER / PERCENTILE ENGINES</span><i /> Decision support · not trained predictive ML</div>
+      <div className="registry-group-label"><span>Decision Engines</span><i /> Rule, peer, and percentile decision support · not trained ML</div>
       <div className="model-grid">{resource.data.items.filter((model) => !model.engine_type.startsWith("ML:")).map((model) => <ModelCard model={model} key={model.capability} />)}</div>
       <section className="panel panel-pad responsible-wrap"><p className="eyebrow">GOVERNANCE POSTURE</p><h2>Responsible intelligence, visibly bounded</h2><div className="responsible-panel">{responsibleItems.map(({ icon: Icon, title, detail }) => <div className="responsible-item" key={title}><Icon size={15} /><span><strong>{title}</strong><br />{detail}</span></div>)}</div></section>
     </>}

@@ -45,18 +45,18 @@ export default function CommandCenterPage() {
   ];
 
   return <>
-    <PageHeader eyebrow="OPERATIONS INTELLIGENCE / 01" title="Command Center" description="A live view of available synthetic batch intelligence. Values appear only where the API supplies them." actions={<><SyntheticBadge /><HumanReviewBadge /></>} />
+    <PageHeader eyebrow="OPERATIONS INTELLIGENCE" title="Merchant & Agent Intelligence" description="See demand, merchant health, agent readiness and expansion opportunities in one place." actions={<><SyntheticBadge /><HumanReviewBadge /></>} />
     {failures.length > 0 && <div className="notice notice-warning" role="status">Some intelligence sources are unavailable. The panels below show returned data only.</div>}
     <section className="hero-kpi-row" aria-label="Synthetic entity totals">
-      <div className="metric-card"><div className="metric-label"><Building2 size={14} /> Canonical merchants</div><div className="metric-value">{merchants.status === "success" ? <CountDisplay value={merchantTotal} /> : "—"}</div><div className="metric-foot"><SourceBadge>Canonical master</SourceBadge></div></div>
-      <div className="metric-card"><div className="metric-label"><UsersRound size={14} /> Canonical agents</div><div className="metric-value">{agents.status === "success" ? <CountDisplay value={agentTotal} /> : "—"}</div><div className="metric-foot"><SourceBadge>Canonical master</SourceBadge></div></div>
-      <div className="metric-card"><div className="metric-label"><Activity size={14} /> Category-day forecasts</div><div className="metric-value">{demand.status === "success" ? <CountDisplay value={demand.data.total} /> : "—"}</div><div className="metric-foot">Category-level · next day</div></div>
-      <div className="metric-card"><div className="metric-label"><MapPinned size={14} /> Location indices</div><div className="metric-value">{locations.status === "success" ? <CountDisplay value={locationTotal} /> : "—"}</div><div className="metric-foot">Synthetic schematic · not GPS</div></div>
+      <div className="metric-card"><div className="metric-label"><Building2 size={14} /> Total Merchants</div><div className="metric-value">{merchants.status === "success" ? <CountDisplay value={merchantTotal} /> : "—"}</div><div className="metric-foot"><SourceBadge>Verified network</SourceBadge></div></div>
+      <div className="metric-card"><div className="metric-label"><UsersRound size={14} /> Total Agents</div><div className="metric-value">{agents.status === "success" ? <CountDisplay value={agentTotal} /> : "—"}</div><div className="metric-foot"><SourceBadge>Verified network</SourceBadge></div></div>
+      <div className="metric-card"><div className="metric-label"><Activity size={14} /> Demand Forecasts</div><div className="metric-value">{demand.status === "success" ? <CountDisplay value={demand.data.total} /> : "—"}</div><div className="metric-foot">Category-level · next day</div></div>
+      <div className="metric-card"><div className="metric-label"><MapPinned size={14} /> Locations Analyzed</div><div className="metric-value">{locations.status === "success" ? <CountDisplay value={locationTotal} /> : "—"}</div><div className="metric-foot">Synthetic schematic · not GPS</div></div>
     </section>
     <div className="command-grid">
       <div className="command-left">
         <AnimatedSection>
-          <StateCard title="Intelligence pulse">
+          <StateCard title="Latest Insights">
             <div className="signal-list">
               {demand.status === "success" && latestForecast && <div className="signal-item"><span className="signal-mark" /><div><strong>{String(latestForecast.merchant_category)} demand · next day</strong><p>Latest supplied category point forecast is {String(latestForecast.predicted_next_day_demand ?? "not supplied")} with {String(latestForecast.demand_level ?? "unclassified")} relative band.</p><small>{String(latestForecast.target_date)} · synthetic batch</small></div><RiskBadge value={String(latestForecast.demand_level ?? "Not supplied")} /></div>}
               {liquidity.status === "success" && <div className="signal-item"><span className="signal-mark" /><div><strong>Agent next-day liquidity</strong><p>{String(liquidity.data.risk_level ?? "Risk level not supplied")} · cash preparation amount and capacity proxy are shown on the agent record.</p><small>{String(liquidity.data.target_date ?? "Target date unavailable")} · {String(record(liquidity.data.model_or_engine_metadata)?.version ?? "batch")}</small></div><RiskBadge value={String(liquidity.data.risk_level ?? "Not supplied")} /></div>}
@@ -75,11 +75,11 @@ export default function CommandCenterPage() {
       </div>
       <div className="command-right">
         <AnimatedSection>
-          <StateCard title="What needs attention">
+          <StateCard title="Needs Attention">
             {interventions.status === "loading" && <LoadingState label="Loading human action queue" />}
             {interventions.status === "error" && <ErrorState message={interventions.error} onRetry={interventions.retry} />}
             {interventions.status === "success" && (interventions.data.items.length ? <div className="signal-list">{interventions.data.items.slice(0, 5).map((item) => <Link href="/interventions" className="signal-item" key={item.id}><span className="signal-mark" /><div><strong>{item.target_type} · {item.target_id}</strong><p>{item.recommended_action}</p><small>{item.capability} · {new Date(item.updated_at).toLocaleDateString()}</small></div><RiskBadge value={item.status} /></Link>)}</div> : <EmptyState title="Queue clear" detail="No intervention records were returned for your account." />)}
-            <div className="panel-footer"><Link href="/interventions" className="text-button">Open Action Center <ArrowRight size={13} /></Link></div>
+            <div className="panel-footer"><Link href="/interventions" className="text-button">Open Action Review <ArrowRight size={13} /></Link></div>
           </StateCard>
         </AnimatedSection>
         <AnimatedSection>
