@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  background: #f4f6f4;
+  color: #18221f;
+  font-family: "Aptos", "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.86), transparent 55%),
+    #f4f6f4;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid #147a69;
+  outline-offset: 3px;
+}
+
+.foundation {
+  width: min(100% - 40px, 880px);
+  margin: 12vh auto 0;
+  padding: 40px 0;
+}
+
+.eyebrow {
+  margin: 0 0 16px;
+  color: #147a69;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 700px;
+  margin: 0;
+  font-size: clamp(2.2rem, 6vw, 4.4rem);
+  line-height: 1.04;
+}
+
+.intro {
+  max-width: 560px;
+  margin: 20px 0 36px;
+  color: #53625d;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.foundation dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding-top: 20px;
+  border-top: 1px solid #ccd5d1;
+}
+
+.foundation dt {
+  color: #53625d;
+  font-size: 0.85rem;
+}
+
+.foundation dd {
+  margin: 6px 0 0;
+  font-weight: 650;
+}
+
+@media (max-width: 560px) {
+  .foundation {
+    margin-top: 8vh;
+  }
+
+  .foundation dl {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
