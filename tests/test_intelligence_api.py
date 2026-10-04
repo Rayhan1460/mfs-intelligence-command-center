@@ -211,3 +211,18 @@ def test_artifact_and_internal_errors_are_sanitized(client: TestClient, monkeypa
     assert internal.json()["code"] == "internal_error"
     assert "private" not in internal.text
     assert "traceback" not in internal.text
+
+
+def test_all_thirteen_runtime_artifacts_loadable() -> None:
+    from app.repositories.artifacts import ARTIFACTS, get_artifact_repository
+    repo = get_artifact_repository()
+    assert len(ARTIFACTS) == 13
+    for key in ARTIFACTS:
+        if key.endswith("_config"):
+            data = repo.json(key)
+            assert isinstance(data, dict)
+            assert len(data) > 0
+        else:
+            rows = repo.rows(key)
+            assert isinstance(rows, tuple)
+            assert len(rows) > 0

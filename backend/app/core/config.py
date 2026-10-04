@@ -45,17 +45,25 @@ class Settings(BaseSettings):
     @classmethod
     def resolve_relative_source_root(cls, value):
         path = Path(value)
-        if path.is_absolute():
+        if path.is_absolute() and path.exists():
             return path
+
+        unprefixed = Path(*path.parts[1:]) if path.parts and path.parts[0] == "backend" else path
+        app_dir = Path(__file__).resolve().parents[2]
+        repo_dir = Path(__file__).resolve().parents[3] if len(Path(__file__).resolve().parents) > 3 else app_dir
+
         candidates = [
-            REPOSITORY_ROOT / path,
-            Path(__file__).resolve().parents[2] / path,
+            repo_dir / path,
+            app_dir / path,
             Path.cwd() / path,
+            app_dir / unprefixed,
+            Path.cwd() / unprefixed,
+            repo_dir / "backend" / unprefixed,
         ]
         for candidate in candidates:
-            if candidate.exists():
+            if candidate.exists() and candidate.is_dir():
                 return candidate.resolve()
-        return REPOSITORY_ROOT / path
+        return (repo_dir / path).resolve()
 
 
 @lru_cache
