@@ -310,3 +310,40 @@ def test_production_session_cookie_is_secure(monkeypatch, make_client):
         header for header in response.headers.get_list("set-cookie") if settings.session_cookie_name in header
     )
     assert "secure" in session_cookie.casefold()
+
+
+def test_demo_login_blocked_when_demo_mode_false(monkeypatch, make_client, isolated_database):
+    monkeypatch.setattr(settings, "demo_mode", False)
+    client = make_client(None)
+    response = client.post("/api/v1/auth/demo-login")
+    assert response.status_code == 404
+    assert response.json()["code"] == "demo_mode_disabled"
+
+
+def test_demo_login_succeeds_when_demo_mode_true(monkeypatch, make_client, isolated_database):
+    monkeypatch.setattr(settings, "demo_mode", True)
+    client = make_client(None)
+    response = client.post("/api/v1/auth/demo-login")
+    assert response.status_code == 200
+    user_data = response.json()["user"]
+    assert user_data["role"] == "ADMIN"
+    assert "token" not in response.json()
+    assert "password_hash" not in response.json()
+
+    # Session cookie exists and is HttpOnly
+    cookie_headers = response.headers.get_list("set-cookie")
+    session_cookie = next(header for header in cookie_headers if settings.session_cookie_name in header)
+    csrf_cookie = next(header for header in cookie_headers if "mfs_csrf=" in header)
+    assert "httponly" in session_cookie.casefold()
+    assert "httponly" not in csrf_cookie.casefold()
+
+    # /me works after demo login
+    me_response = client.get("/api/v1/me")
+    assert me_response.status_code == 200
+    assert me_response.json()["role"] == "ADMIN"
+
+    # logout still works
+    logout_response = client.post("/api/v1/auth/logout", headers=csrf_headers(client))
+    assert logout_response.status_code == 200
+    assert logout_response.json() == {"status": "logged_out"}
+    assert client.get("/api/v1/me").status_code == 401

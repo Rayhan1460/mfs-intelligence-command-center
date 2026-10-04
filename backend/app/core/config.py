@@ -31,6 +31,8 @@ class Settings(BaseSettings):
     session_cookie_secure: bool = False
     session_cookie_samesite: Literal["lax", "strict", "none"] = "lax"
     frontend_origin: str = "http://127.0.0.1:3000"
+    demo_mode: bool = False
+    demo_user_email: str = "demo.admin@example.com"
 
     model_config = SettingsConfigDict(
         env_file=REPOSITORY_ROOT / ".env",

@@ -56,6 +56,56 @@ def _user_response(user: User) -> UserResponse:
     )
 
 
+def _issue_session(
+    user: User,
+    request: Request,
+    response: Response,
+    session: Session,
+    event_type: str = "LOGIN_SUCCESS",
+) -> LoginResponse:
+    raw_token = secrets.token_urlsafe(48)
+    csrf_token = secrets.token_urlsafe(32)
+    now = datetime.now(timezone.utc)
+    auth_session = AuthSession(
+        user_id=user.id,
+        token_hash=hash_secret(raw_token),
+        csrf_token_hash=hash_secret(csrf_token),
+        created_at=now,
+        expires_at=now + timedelta(minutes=settings.session_ttl_minutes),
+    )
+    session.add(auth_session)
+    session.flush()
+    record_audit_event(
+        session,
+        event_type=event_type,
+        actor_user_id=user.id,
+        subject_type="auth_session",
+        subject_id=auth_session.id,
+        correlation_id=getattr(request.state, "correlation_id", None),
+    )
+    session.commit()
+
+    cookie_options = {
+        "max_age": settings.session_ttl_minutes * 60,
+        "secure": _cookie_secure(),
+        "samesite": settings.session_cookie_samesite,
+        "path": "/",
+    }
+    response.set_cookie(
+        settings.session_cookie_name,
+        raw_token,
+        httponly=True,
+        **cookie_options,
+    )
+    response.set_cookie(
+        CSRF_COOKIE_NAME,
+        csrf_token,
+        httponly=False,
+        **cookie_options,
+    )
+    return LoginResponse(user=_user_response(user))
+
+
 @router.post("/login", response_model=LoginResponse)
 def login(
     payload: LoginRequest,
@@ -85,47 +135,32 @@ def login(
         raise APIError(401, "invalid_credentials", "Email or password is incorrect.")
 
     clear_login_failures(throttle_key)
-    raw_token = secrets.token_urlsafe(48)
-    csrf_token = secrets.token_urlsafe(32)
-    now = datetime.now(timezone.utc)
-    auth_session = AuthSession(
-        user_id=user.id,
-        token_hash=hash_secret(raw_token),
-        csrf_token_hash=hash_secret(csrf_token),
-        created_at=now,
-        expires_at=now + timedelta(minutes=settings.session_ttl_minutes),
-    )
-    session.add(auth_session)
-    session.flush()
-    record_audit_event(
-        session,
-        event_type="LOGIN_SUCCESS",
-        actor_user_id=user.id,
-        subject_type="auth_session",
-        subject_id=auth_session.id,
-        correlation_id=getattr(request.state, "correlation_id", None),
-    )
-    session.commit()
+    return _issue_session(user, request, response, session, event_type="LOGIN_SUCCESS")
 
-    cookie_options = {
-        "max_age": settings.session_ttl_minutes * 60,
-        "secure": _cookie_secure(),
-        "samesite": settings.session_cookie_samesite,
-        "path": "/",
-    }
-    response.set_cookie(
-        settings.session_cookie_name,
-        raw_token,
-        httponly=True,
-        **cookie_options,
-    )
-    response.set_cookie(
-        CSRF_COOKIE_NAME,
-        csrf_token,
-        httponly=False,
-        **cookie_options,
-    )
-    return LoginResponse(user=_user_response(user))
+
+@router.post("/demo-login", response_model=LoginResponse)
+def demo_login(
+    request: Request,
+    response: Response,
+    session: Session = Depends(get_db),
+) -> LoginResponse:
+    if not settings.demo_mode:
+        raise APIError(404, "demo_mode_disabled", "Demo mode is disabled.")
+    _check_login_origin(request)
+
+    user = None
+    if settings.demo_user_email:
+        user = session.scalar(
+            select(User).where(User.email == settings.demo_user_email.casefold(), User.is_active.is_(True))
+        )
+    if user is None:
+        user = session.scalar(
+            select(User).where(User.role == "ADMIN", User.is_active.is_(True)).order_by(User.created_at.asc())
+        )
+    if user is None:
+        raise APIError(404, "demo_user_not_found", "No active demo account is available.")
+
+    return _issue_session(user, request, response, session, event_type="DEMO_LOGIN_SUCCESS")
 
 
 @router.post("/logout", response_model=LogoutResponse)

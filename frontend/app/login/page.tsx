@@ -49,6 +49,22 @@ export default function LoginPage() {
     }
   }
 
+  const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
+
+  async function enterDemo() {
+    setBusy(true);
+    setError("");
+    try {
+      await apiFetch("/api/v1/auth/demo-login", { method: "POST" });
+      await refresh();
+      router.replace("/command-center");
+    } catch (cause) {
+      setError(loginMessage(cause));
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return <main className="login-screen">
     <section className="login-story">
       <Link className="brand-lockup" href="/"><span className="brand-mark">M<span>F</span></span><span className="brand-name">MFS<span>INTELLIGENCE</span></span></Link>
@@ -68,6 +84,23 @@ export default function LoginPage() {
         <label>Password<input type="password" name="password" required autoComplete="current-password" /></label>
         <button className="button button-gold" type="submit" disabled={busy}>{busy ? "Verifying access…" : "Sign in"}{!busy && <ArrowRight size={15} />}</button>
       </form>
+      {isDemo && (
+        <div style={{ marginTop: "1rem", paddingTop: "0.85rem", borderTop: "1px dashed var(--border)", display: "flex", flexDirection: "column", gap: "0.45rem" }}>
+          <div style={{ fontSize: "0.75rem", color: "var(--muted)", textAlign: "center", fontWeight: 500 }}>
+            Competition / Evaluator Access
+          </div>
+          <button
+            type="button"
+            className="button button-primary"
+            style={{ width: "100%", justifyContent: "center", minHeight: "40px" }}
+            onClick={enterDemo}
+            disabled={busy}
+          >
+            {busy ? "Entering demo…" : "Enter Demo"}
+            {!busy && <ArrowRight size={15} />}
+          </button>
+        </div>
+      )}
       <div className="login-bottom"><LockKeyhole size={14} /> Secure session · Role-based access · No browser token storage</div>
     </motion.div></section>
   </main>;

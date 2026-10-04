@@ -93,4 +93,24 @@ describe("Phase 4 frontend behavior", () => {
     expect(css).toContain("@media (prefers-reduced-motion: reduce)");
     expect(css).toContain("animation-duration: .01ms");
   });
+
+  it("shows Enter Demo button when NEXT_PUBLIC_DEMO_MODE is true and authenticates", async () => {
+    const originalDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE;
+    process.env.NEXT_PUBLIC_DEMO_MODE = "true";
+    try {
+      const userEventApi = userEvent.setup();
+      apiFetchMock.mockResolvedValueOnce({ user: user("ADMIN") });
+      mockAuth.refresh.mockResolvedValue(user("ADMIN"));
+      render(<LoginPage />);
+
+      const demoButton = screen.getByRole("button", { name: /enter demo/i });
+      expect(demoButton).toBeInTheDocument();
+      await userEventApi.click(demoButton);
+
+      await waitFor(() => expect(apiFetchMock).toHaveBeenCalledWith("/api/v1/auth/demo-login", expect.objectContaining({ method: "POST" })));
+      expect(mockRouter.replace).toHaveBeenCalledWith("/command-center");
+    } finally {
+      process.env.NEXT_PUBLIC_DEMO_MODE = originalDemoMode;
+    }
+  });
 });
