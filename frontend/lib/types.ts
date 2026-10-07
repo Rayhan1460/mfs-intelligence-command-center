@@ -70,3 +70,56 @@ export interface ApiFailure {
   correlation_id?: string;
   safe_details?: Record<string, unknown>;
 }
+
+export interface PriorityActionItem {
+  priority_rank: number;
+  priority_score: number;
+  priority_level: "HIGH" | "MEDIUM" | "LOW";
+  entity_id: string;
+  entity_type: "agent" | "merchant";
+  entity_name_or_category: string;
+  district: string;
+  location_id?: string | null;
+  reason: string;
+  evidence: string;
+  recommended_action: string;
+  expected_value_label: string;
+  confidence_label: string;
+  source_modules: string[];
+  review_status: string;
+  intervention_id?: string | null;
+  future_data_required: string[];
+}
+
+export interface MorningBriefing {
+  as_of_date: string;
+  total_actions_flagged: number;
+  high_priority_count: number;
+  medium_priority_count: number;
+  low_priority_count: number;
+  agent_cases_count: number;
+  merchant_cases_count: number;
+  top_operational_reason: string;
+  top_recommended_action: string;
+  briefing_text_en: string;
+  briefing_text_bn: string;
+}
+
+export interface DailyPrioritiesResponse {
+  source: string;
+  synthetic_data: boolean;
+  serving_mode: string;
+  scoring_formula: string;
+  briefing: MorningBriefing;
+  items: PriorityActionItem[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export interface ProductionDataRequirement {
+  data_domain: string;
+  current_synthetic_status: string;
+  production_upay_requirement: string;
+  operational_purpose: string;
+}

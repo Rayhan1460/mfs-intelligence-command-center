@@ -4,14 +4,17 @@ import Link from "next/link";
 import { ArrowRight, Activity, Building2, MapPinned, UsersRound } from "lucide-react";
 
 import { AnimatedSection, CountDisplay, EmptyState, ErrorState, HumanReviewBadge, LoadingState, PageHeader, RiskBadge, SourceBadge, StateCard, SyntheticBadge } from "@/components/ui";
+import { DailyOperationsQueue } from "@/components/DailyOperationsQueue";
 import { record } from "@/lib/format";
 import { useApi } from "@/lib/useApi";
+import { useLanguage } from "@/providers/LanguageProvider";
 import type { EntityIdentity, Intervention, PageResult } from "@/lib/types";
 
 interface ForecastResponse extends PageResult<Record<string, unknown>> { forecast_scope?: string; horizon?: string; limitations?: string[] }
 interface LocationResponse extends PageResult<Record<string, unknown>> { limitations?: string[] }
 
 export default function CommandCenterPage() {
+  const { language } = useLanguage();
   const merchants = useApi<PageResult<EntityIdentity>>("/api/v1/merchants?limit=1");
   const agents = useApi<PageResult<EntityIdentity>>("/api/v1/agents?limit=1");
   const demand = useApi<ForecastResponse>("/api/v1/demand/forecasts?limit=100");
@@ -45,8 +48,18 @@ export default function CommandCenterPage() {
   ];
 
   return <>
-    <PageHeader eyebrow="OPERATIONS INTELLIGENCE" title="Merchant & Agent Intelligence" description="See demand, merchant health, agent readiness and expansion opportunities in one place." actions={<><SyntheticBadge /><HumanReviewBadge /></>} />
+    <PageHeader
+      eyebrow="DAILY MFS OPERATIONS"
+      title={language === "bn" ? "দৈনিক অপারেশন কমান্ড সেন্টার" : "Daily Operations Command Center"}
+      description={language === "bn" ? "সকাল ৯:০০ টার অগ্রাধিকারপ্রাপ্ত কার্যক্রম, এজেন্ট লিকুইডিটি চাপ ও মার্চেন্ট রিটেনশন সিদ্ধান্ত ব্যবস্থা।" : "9:00 AM prioritized operational decision queue: which agents and merchants require action today, why, and expected business impact."}
+      actions={<><SyntheticBadge /><HumanReviewBadge /></>}
+    />
     {failures.length > 0 && <div className="notice notice-warning" role="status">Some intelligence sources are unavailable. The panels below show returned data only.</div>}
+
+    {/* TOP: DAILY OPERATIONS BRIEF & TODAY'S PRIORITY ACTIONS */}
+    <DailyOperationsQueue />
+
+    {/* OPERATIONAL KPI SUMMARY */}
     <section className="hero-kpi-row" aria-label="Synthetic entity totals">
       <div className="metric-card"><div className="metric-label"><Building2 size={14} /> Total Merchants</div><div className="metric-value">{merchants.status === "success" ? <CountDisplay value={merchantTotal} /> : "—"}</div><div className="metric-foot"><SourceBadge>Verified network</SourceBadge></div></div>
       <div className="metric-card"><div className="metric-label"><UsersRound size={14} /> Total Agents</div><div className="metric-value">{agents.status === "success" ? <CountDisplay value={agentTotal} /> : "—"}</div><div className="metric-foot"><SourceBadge>Verified network</SourceBadge></div></div>

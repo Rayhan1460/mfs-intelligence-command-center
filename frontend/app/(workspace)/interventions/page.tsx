@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Check, ClipboardList, X } from "lucide-react";
 
 import { apiFetch, friendlyError } from "@/lib/api";
@@ -25,6 +25,39 @@ export default function InterventionsPage() {
   const items = status ? all.filter((item) => item.status === status) : all;
   const canPropose = Boolean(user && ["ADMIN", "ANALYST", "REGIONAL_MANAGER"].includes(user.role));
   const canDecide = Boolean(user && ["ADMIN", "REGIONAL_MANAGER"].includes(user.role));
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      const qTargetType = searchParams.get("target_type");
+      const qTargetId = searchParams.get("target_id");
+      const qCapability = searchParams.get("capability") || "daily_operations_priority";
+      const qAction = searchParams.get("action");
+      const qReason = searchParams.get("reason");
+
+      if (qTargetId) {
+        const form = document.querySelector(".intervention-form") as HTMLFormElement | null;
+        if (form) {
+          if (qTargetType) {
+            const selectEl = form.elements.namedItem("target_type") as HTMLSelectElement | null;
+            if (selectEl) selectEl.value = qTargetType;
+          }
+          const idInput = form.elements.namedItem("target_id") as HTMLInputElement | null;
+          if (idInput) idInput.value = qTargetId;
+          const capInput = form.elements.namedItem("capability") as HTMLInputElement | null;
+          if (capInput) capInput.value = qCapability;
+          if (qAction) {
+            const actInput = form.elements.namedItem("recommended_action") as HTMLInputElement | null;
+            if (actInput) actInput.value = qAction;
+          }
+          if (qReason) {
+            const reasonInput = form.elements.namedItem("reason") as HTMLTextAreaElement | null;
+            if (reasonInput) reasonInput.value = qReason;
+          }
+        }
+      }
+    }
+  }, []);
 
   async function create(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
