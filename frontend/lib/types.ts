@@ -66,6 +66,7 @@ export interface RegistryModel {
   percentile_definition?: string;
   fallback_behavior?: string;
   threshold_rationale?: string;
+  champion_selection_criterion?: string;
   top_features?: Array<{ feature: string; importance: number; normalized_pct?: number }>;
   documented_metrics: Record<string, string | number | Record<string, string>>;
   limitations: string[];
@@ -92,7 +93,13 @@ export interface PriorityActionItem {
   evidence: string;
   recommended_action: string;
   expected_value_label: string;
+  expected_value_score: number;
   confidence_label: string;
+  risk_or_opportunity: "RISK" | "GROWTH_OPPORTUNITY";
+  suggested_owner: string;
+  suggested_demo_sla: string;
+  source_model_or_rule: string;
+  model_version?: string | null;
   source_modules: string[];
   review_status: string;
   intervention_id?: string | null;
@@ -109,8 +116,20 @@ export interface MorningBriefing {
   merchant_cases_count: number;
   top_operational_reason: string;
   top_recommended_action: string;
+  cross_network_alert?: string | null;
   briefing_text_en: string;
   briefing_text_bn: string;
+}
+
+export interface CrossNetworkSignal {
+  district: string;
+  signal_type: string;
+  critical_agent_count: number;
+  active_merchant_count: number;
+  headline: string;
+  recommended_action: string;
+  operational_scope: string;
+  severity: string;
 }
 
 export interface DailyPrioritiesResponse {
@@ -120,9 +139,28 @@ export interface DailyPrioritiesResponse {
   scoring_formula: string;
   briefing: MorningBriefing;
   items: PriorityActionItem[];
+  cross_network_signals?: CrossNetworkSignal[];
+  business_impact?: Record<string, unknown> | null;
   total: number;
   limit: number;
   offset: number;
+}
+
+export interface OutcomesSummary {
+  synthetic_demo_history: boolean;
+  label: string;
+  total_interventions: number;
+  proposed: number;
+  approved: number;
+  in_progress: number;
+  completed: number;
+  rejected: number;
+  deferred: number;
+  no_response: number;
+  median_review_time_hours: number;
+  action_acceptance_rate_percent: number;
+  completion_rate_percent: number;
+  outcome_coverage_percent: number;
 }
 
 export interface ProductionDataRequirement {

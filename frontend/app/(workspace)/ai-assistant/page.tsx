@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, type FormEvent, type KeyboardEvent } from 
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   Send, Sparkles, BrainCircuit, AlertTriangle, ExternalLink,
-  ChevronRight, MessageCircle, Lightbulb, BarChart3, MapPin, Users, Store
+  ChevronRight, MessageCircle, Lightbulb, BarChart3, MapPin, Users, Store, Calendar
 } from "lucide-react";
 import Link from "next/link";
 import { apiFetch, friendlyError, ApiError } from "@/lib/api";
@@ -57,6 +57,7 @@ const SUGGESTED_PROMPTS: PromptConfig[] = [
   { key: "ai.prompt_liquidity", query: "Explain agent liquidity", defaultLabel: "Explain agent liquidity", icon: Lightbulb, color: "var(--yellow-warm)" },
   { key: "ai.prompt_models", query: "What AI models are used?", defaultLabel: "What AI models are used?", icon: BrainCircuit, color: "var(--blue-primary)" },
   { key: "ai.prompt_summary", query: "Summarize the intelligence", defaultLabel: "Summarize the intelligence", icon: Sparkles, color: "var(--blue-interactive)" },
+  { key: "ai.prompt_weekly_brief", query: "Generate Weekly Operations Brief", defaultLabel: "Generate Weekly Operations Brief", icon: Calendar, color: "var(--yellow-warm)" },
 ];
 
 // ---------------------------------------------------------------------------

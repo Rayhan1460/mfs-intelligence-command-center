@@ -1,0 +1,59 @@
+{
+  "disclaimer": "Illustrative synthetic scenario — not actual upay financial data.",
+  "synthetic_disclaimer": "Illustrative synthetic scenario — not actual upay financial data.",
+  "unit": "BDT",
+  "assumptions": {
+    "agent_shortfall_service_cost_proxy": 1500.0,
+    "merchant_retention_value_proxy": 8500.0,
+    "field_contact_cost_proxy": 250.0,
+    "field_visit_cost_proxy": 800.0,
+    "campaign_cost_proxy": 150.0
+  },
+  "agent_liquidity_simulation": {
+    "total_agent_days": 12102,
+    "total_agents": 800,
+    "strategies": {
+      "without_recommendation": {
+        "name": "Unmitigated / Zero Proactive Buffer",
+        "shortfall_proxy_events": 1219,
+        "shortfall_proxy_rate_percent": 10.07,
+        "average_shortfall_bdt": 1821.57,
+        "estimated_unserved_service_cost_bdt": 1828500.0
+      },
+      "with_p90_buffer": {
+        "name": "Calibrated Operational P90 Buffer (Recommended)",
+        "empirical_coverage_percent": 89.93,
+        "shortfall_proxy_rate_percent": 10.07,
+        "average_recommended_buffer_bdt": 1999.53,
+        "average_excess_buffer_bdt": 1979.82,
+        "pinball_loss_bdt": 615.62,
+        "prevented_shortfalls_count": 10883,
+        "operational_efficiency": "High (Protects 90% of days while keeping idle buffer < 2,000 BDT)"
+      },
+      "with_7d_max": {
+        "name": "7-Day Maximum Cashout Strategy",
+        "empirical_coverage_percent": 97.4,
+        "shortfall_proxy_rate_percent": 2.6,
+        "average_buffer_bdt": 6798.4,
+        "working_capital_tied_multiplier": 3.4,
+        "operational_efficiency": "Low (Excess idle working capital locked up in retail agent floats)"
+      }
+    }
+  },
+  "merchant_churn_simulation": {
+    "canonical_merchants": 5000,
+    "model_algorithm": "LightGBM Classifier (Phase 2 Forward-Looking Hazard Model)",
+    "operational_threshold": 0.35,
+    "flagged_merchants_count": 2215,
+    "flagged_network_percent": 44.3,
+    "held_out_test_precision_percent": 25.55,
+    "held_out_test_recall_percent": 88.71,
+    "estimated_true_positives": 566,
+    "estimated_false_positives": 1649,
+    "synthetic_intervention_cost_total_bdt": 553750.0,
+    "break_even_reactivations_needed": 65.1,
+    "break_even_reactivation_rate_among_true_positives_percent": 11.5,
+    "break_even_reactivation_rate_among_flagged_queue_percent": 2.94,
+    "summary": "At an operational threshold of 0.35, field and desk outreach breaks even if only 66 of 566 true churners (11.5%) are successfully retained."
+  }
+}

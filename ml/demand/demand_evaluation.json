@@ -6,36 +6,36 @@
   "evaluation_sample_size": 390,
   "overall_evaluation": {
     "model": {
-      "mae": 94618.37,
-      "rmse": 109068.94,
-      "r2": -1.0109
+      "mae": 9743.14,
+      "rmse": 13008.39,
+      "r2": 0.7798
     },
     "baselines": {
       "previous_day_naive": {
-        "mae": 28870.83,
-        "rmse": 37008.49,
-        "r2": 0.7685
+        "mae": 12862.86,
+        "rmse": 17114.47,
+        "r2": 0.6188
       },
       "rolling_7d_average": {
-        "mae": 21707.56,
-        "rmse": 28374.26,
-        "r2": 0.8639
+        "mae": 10099.08,
+        "rmse": 12992.06,
+        "r2": 0.7804
       },
       "seasonal_naive_7d": {
-        "mae": 28172.45,
-        "rmse": 37334.77,
-        "r2": 0.7644
+        "mae": 13457.58,
+        "rmse": 17701.41,
+        "r2": 0.5923
       }
     },
-    "mae_improvement_vs_previous_day": -227.73,
-    "mae_improvement_vs_rolling_7d": -335.88,
-    "mae_improvement_vs_seasonal_naive": -235.85
+    "mae_improvement_vs_previous_day": 24.25,
+    "mae_improvement_vs_rolling_7d": 3.52,
+    "mae_improvement_vs_seasonal_naive": 27.6
   },
   "uncertainty_intervals": {
     "method": "Calibrated empirical residual quantiles",
-    "p10_offset_bdt": 41344.62,
-    "p50_offset_bdt": 75670.12,
-    "p90_offset_bdt": 174473.46,
+    "p10_offset_bdt": -13076.23,
+    "p50_offset_bdt": -413.86,
+    "p90_offset_bdt": 16999.9,
     "target_coverage_percent": 80.0,
     "empirical_coverage_percent": 80.26,
     "is_statistically_supportable": true,
@@ -45,242 +45,242 @@
     "Education": {
       "sample_count": 39,
       "model": {
-        "mae": 72385.65,
-        "rmse": 75067.09,
-        "r2": -13.0915
+        "mae": 7380.18,
+        "rmse": 9351.06,
+        "r2": -0.2001
       },
       "seasonal_naive": {
-        "mae": 20369.16,
-        "rmse": 27188.49,
-        "r2": -0.8485
+        "mae": 10551.33,
+        "rmse": 12394.37,
+        "r2": -1.1084
       },
       "previous_day_naive": {
-        "mae": 24341.94,
-        "rmse": 29792.61,
-        "r2": -1.2196
+        "mae": 10364.92,
+        "rmse": 12314.62,
+        "r2": -1.0813
       },
       "rolling_7d": {
-        "mae": 16236.52,
-        "rmse": 21095.78,
-        "r2": -0.1129
+        "mae": 7702.9,
+        "rmse": 9195.85,
+        "r2": -0.1606
       },
-      "model_vs_snaive_mae_improvement_pct": -255.37
+      "model_vs_snaive_mae_improvement_pct": 30.05
     },
     "Electronics": {
       "sample_count": 39,
       "model": {
-        "mae": 53076.8,
-        "rmse": 58309.11,
-        "r2": -4.7835
+        "mae": 5727.95,
+        "rmse": 6992.99,
+        "r2": 0.0367
       },
       "seasonal_naive": {
-        "mae": 27901.91,
-        "rmse": 34572.11,
-        "r2": -1.0331
+        "mae": 8046.61,
+        "rmse": 9821.4,
+        "r2": -0.9001
       },
       "previous_day_naive": {
-        "mae": 30295.2,
-        "rmse": 35284.16,
-        "r2": -1.1178
+        "mae": 7863.44,
+        "rmse": 10124.0,
+        "r2": -1.019
       },
       "rolling_7d": {
-        "mae": 21420.65,
-        "rmse": 26501.02,
-        "r2": -0.1947
+        "mae": 6358.12,
+        "rmse": 7607.78,
+        "r2": -0.1401
       },
-      "model_vs_snaive_mae_improvement_pct": -90.23
+      "model_vs_snaive_mae_improvement_pct": 28.82
     },
     "Fashion": {
       "sample_count": 39,
       "model": {
-        "mae": 64800.33,
-        "rmse": 68451.53,
-        "r2": -8.2183
+        "mae": 10721.56,
+        "rmse": 14483.09,
+        "r2": -0.0628
       },
       "seasonal_naive": {
-        "mae": 24125.82,
-        "rmse": 33094.16,
-        "r2": -1.1547
+        "mae": 14738.28,
+        "rmse": 20960.16,
+        "r2": -1.2259
       },
       "previous_day_naive": {
-        "mae": 23363.71,
-        "rmse": 30585.49,
-        "r2": -0.8404
+        "mae": 15877.26,
+        "rmse": 20955.42,
+        "r2": -1.2249
       },
       "rolling_7d": {
-        "mae": 17930.01,
-        "rmse": 23565.57,
-        "r2": -0.0925
+        "mae": 11236.5,
+        "rmse": 15018.63,
+        "r2": -0.1428
       },
-      "model_vs_snaive_mae_improvement_pct": -168.59
+      "model_vs_snaive_mae_improvement_pct": 27.25
     },
     "General Retail": {
       "sample_count": 39,
       "model": {
-        "mae": 171879.55,
-        "rmse": 176412.83,
-        "r2": -20.2341
+        "mae": 15253.89,
+        "rmse": 20874.15,
+        "r2": -0.2737
       },
       "seasonal_naive": {
-        "mae": 43597.73,
-        "rmse": 54791.91,
-        "r2": -1.0484
+        "mae": 20976.7,
+        "rmse": 27923.23,
+        "r2": -1.2792
       },
       "previous_day_naive": {
-        "mae": 40205.3,
-        "rmse": 51007.1,
-        "r2": -0.7752
+        "mae": 18786.16,
+        "rmse": 25949.0,
+        "r2": -0.9683
       },
       "rolling_7d": {
-        "mae": 34490.97,
-        "rmse": 41104.68,
-        "r2": -0.1528
+        "mae": 15237.83,
+        "rmse": 19625.65,
+        "r2": -0.1259
       },
-      "model_vs_snaive_mae_improvement_pct": -294.24
+      "model_vs_snaive_mae_improvement_pct": 27.28
     },
     "Grocery": {
       "sample_count": 39,
       "model": {
-        "mae": 189934.38,
-        "rmse": 193241.04,
-        "r2": -28.1387
+        "mae": 12837.88,
+        "rmse": 16041.22,
+        "r2": -0.1585
       },
       "seasonal_naive": {
-        "mae": 39196.75,
-        "rmse": 49471.02,
-        "r2": -0.9097
+        "mae": 16891.68,
+        "rmse": 19430.02,
+        "r2": -0.6996
       },
       "previous_day_naive": {
-        "mae": 36604.32,
-        "rmse": 46516.17,
-        "r2": -0.6884
+        "mae": 16718.0,
+        "rmse": 20785.91,
+        "r2": -0.9451
       },
       "rolling_7d": {
-        "mae": 31946.27,
-        "rmse": 39918.6,
-        "r2": -0.2434
+        "mae": 13445.78,
+        "rmse": 15977.12,
+        "r2": -0.1492
       },
-      "model_vs_snaive_mae_improvement_pct": -384.57
+      "model_vs_snaive_mae_improvement_pct": 24.0
     },
     "Healthcare": {
       "sample_count": 39,
       "model": {
-        "mae": 47352.64,
-        "rmse": 50799.47,
-        "r2": -6.4232
+        "mae": 7566.63,
+        "rmse": 8461.45,
+        "r2": -0.1158
       },
       "seasonal_naive": {
-        "mae": 18195.13,
-        "rmse": 22932.46,
-        "r2": -0.5128
+        "mae": 8901.47,
+        "rmse": 10993.33,
+        "r2": -0.8834
       },
       "previous_day_naive": {
-        "mae": 21161.08,
-        "rmse": 26386.34,
-        "r2": -1.0028
+        "mae": 9637.08,
+        "rmse": 11596.84,
+        "r2": -1.0958
       },
       "rolling_7d": {
-        "mae": 16205.8,
-        "rmse": 19977.81,
-        "r2": -0.1481
+        "mae": 7301.89,
+        "rmse": 8722.46,
+        "r2": -0.1857
       },
-      "model_vs_snaive_mae_improvement_pct": -160.25
+      "model_vs_snaive_mae_improvement_pct": 15.0
     },
     "Pharmacy": {
       "sample_count": 39,
       "model": {
-        "mae": 79866.52,
-        "rmse": 82779.93,
-        "r2": -13.2786
+        "mae": 9168.46,
+        "rmse": 11955.14,
+        "r2": -0.1888
       },
       "seasonal_naive": {
-        "mae": 22019.07,
-        "rmse": 30676.61,
-        "r2": -0.9609
+        "mae": 10272.52,
+        "rmse": 12934.44,
+        "r2": -0.3916
       },
       "previous_day_naive": {
-        "mae": 26171.32,
-        "rmse": 33472.91,
-        "r2": -1.3347
+        "mae": 12803.83,
+        "rmse": 15213.94,
+        "r2": -0.9253
       },
       "rolling_7d": {
-        "mae": 18022.73,
-        "rmse": 23965.17,
-        "r2": -0.1967
+        "mae": 8877.38,
+        "rmse": 11333.3,
+        "r2": -0.0684
       },
-      "model_vs_snaive_mae_improvement_pct": -262.72
+      "model_vs_snaive_mae_improvement_pct": 10.75
     },
     "Restaurant": {
       "sample_count": 39,
       "model": {
-        "mae": 121231.2,
-        "rmse": 123570.42,
-        "r2": -28.1222
+        "mae": 12171.71,
+        "rmse": 14044.62,
+        "r2": -0.2801
       },
       "seasonal_naive": {
-        "mae": 28697.53,
-        "rmse": 35184.11,
-        "r2": -1.361
+        "mae": 16421.84,
+        "rmse": 19505.0,
+        "r2": -1.469
       },
       "previous_day_naive": {
-        "mae": 27531.1,
-        "rmse": 32716.56,
-        "r2": -1.0414
+        "mae": 13744.27,
+        "rmse": 17802.12,
+        "r2": -1.0567
       },
       "rolling_7d": {
-        "mae": 19288.45,
-        "rmse": 24902.14,
-        "r2": -0.1827
+        "mae": 11702.14,
+        "rmse": 13511.02,
+        "r2": -0.1847
       },
-      "model_vs_snaive_mae_improvement_pct": -322.44
+      "model_vs_snaive_mae_improvement_pct": 25.88
     },
     "Transport": {
       "sample_count": 39,
       "model": {
-        "mae": 80894.61,
-        "rmse": 84138.34,
-        "r2": -13.6132
+        "mae": 8980.78,
+        "rmse": 12387.41,
+        "r2": -0.0496
       },
       "seasonal_naive": {
-        "mae": 27922.42,
-        "rmse": 35137.13,
-        "r2": -1.5485
+        "mae": 14749.1,
+        "rmse": 19171.57,
+        "r2": -1.5142
       },
       "previous_day_naive": {
-        "mae": 24929.09,
-        "rmse": 31467.37,
-        "r2": -1.044
+        "mae": 12803.4,
+        "rmse": 17424.37,
+        "r2": -1.0768
       },
       "rolling_7d": {
-        "mae": 19441.61,
-        "rmse": 23970.3,
-        "r2": -0.1861
+        "mae": 10114.86,
+        "rmse": 13202.42,
+        "r2": -0.1923
       },
-      "model_vs_snaive_mae_improvement_pct": -189.71
+      "model_vs_snaive_mae_improvement_pct": 39.11
     },
     "Utility": {
       "sample_count": 39,
       "model": {
-        "mae": 64761.98,
-        "rmse": 70669.01,
-        "r2": -5.1375
+        "mae": 7622.4,
+        "rmse": 9370.52,
+        "r2": 0.0201
       },
       "seasonal_naive": {
-        "mae": 29699.0,
-        "rmse": 38989.14,
-        "r2": -0.8682
+        "mae": 13026.27,
+        "rmse": 15830.75,
+        "r2": -1.7967
       },
       "previous_day_naive": {
-        "mae": 34105.29,
-        "rmse": 44559.14,
-        "r2": -1.4401
+        "mae": 10030.24,
+        "rmse": 11995.64,
+        "r2": -0.6058
       },
       "rolling_7d": {
-        "mae": 22092.63,
-        "rmse": 29951.49,
-        "r2": -0.1025
+        "mae": 9013.39,
+        "rmse": 10868.48,
+        "r2": -0.3182
       },
-      "model_vs_snaive_mae_improvement_pct": -118.06
+      "model_vs_snaive_mae_improvement_pct": 41.48
     }
   },
   "ui_governance": {

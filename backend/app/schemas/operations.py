@@ -15,7 +15,21 @@ class PriorityActionItem(BaseModel):
     evidence: str = Field(..., description="Empirical signal or feature threshold from validated models")
     recommended_action: str = Field(..., description="Concrete operational action for MFS team")
     expected_value_label: str = Field(..., description="Expected business impact proxy")
+    expected_value_score: float = Field(default=0.0, description="Synthetic expected value impact score")
     confidence_label: str = Field(..., description="Evidence quality and model confidence label")
+    risk_or_opportunity: Literal["RISK", "GROWTH_OPPORTUNITY"] = Field(
+        default="RISK", description="Target problem type"
+    )
+    suggested_owner: str = Field(
+        default="Field Team", description="Operational group responsible (e.g. Agent Operations, Field Team)"
+    )
+    suggested_demo_sla: str = Field(
+        default="24h — Next business day", description="Suggested demo response SLA (not actual upay SLA)"
+    )
+    source_model_or_rule: str = Field(
+        default="Validated Batch Intelligence", description="Underlying algorithm or rule"
+    )
+    model_version: str | None = Field(default="2.0", description="Model or engine version")
     source_modules: list[str] = Field(..., description="Originating intelligence domain modules")
     review_status: str = Field(default="PENDING_REVIEW", description="Current human review workflow state")
     intervention_id: str | None = Field(None, description="Linked intervention ID if proposed/active")
@@ -35,6 +49,9 @@ class MorningBriefing(BaseModel):
     merchant_cases_count: int = Field(..., description="Count of merchant cases in queue")
     top_operational_reason: str = Field(..., description="Most frequent operational flag reason")
     top_recommended_action: str = Field(..., description="Primary recommended action today")
+    cross_network_alert: str | None = Field(
+        default=None, description="Cross-network demand and liquidity correlation highlight"
+    )
     briefing_text_en: str = Field(..., description="Deterministic morning brief in English")
     briefing_text_bn: str = Field(..., description="Deterministic morning brief in Bangla")
 
@@ -46,6 +63,12 @@ class DailyPrioritiesResponse(BaseModel):
     scoring_formula: str = Field(..., description="Formula used for transparent deterministic scoring")
     briefing: MorningBriefing
     items: list[PriorityActionItem]
+    cross_network_signals: list[dict[str, Any]] = Field(
+        default_factory=list, description="Cross-network demand and liquidity overlap signals"
+    )
+    business_impact: dict[str, Any] | None = Field(
+        default=None, description="Configurable synthetic business impact simulation data"
+    )
     total: int
     limit: int
     offset: int

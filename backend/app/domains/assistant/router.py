@@ -61,6 +61,8 @@ def _intent(text: str) -> str:
         return "explain_merchant"
     if _extract_agent_id(text):
         return "explain_agent"
+    if any(w in lowered for w in ["weekly", "briefing", "operations brief", "weekly brief"]):
+        return "weekly_brief"
     if any(w in lowered for w in ["demand", "forecast", "outlook"]):
         return "demand_outlook"
     if any(w in lowered for w in ["location", "expansion", "opportunit"]):
@@ -453,6 +455,84 @@ def _build_summary_response(svc: IntelligenceService) -> dict:
     }
 
 
+def _build_weekly_operations_brief(svc: IntelligenceService) -> dict:
+    from app.domains.operations.service import OperationsService
+    ops = OperationsService(svc.repository)
+    queue_resp = ops.daily_priorities(session=None, limit=5, sort_by="expected_value")
+    top_items = queue_resp.items[:3]
+    cross_signals = queue_resp.cross_network_signals or []
+
+    actions_summary = "\n".join(
+        f"- **#{item.priority_rank} [{item.entity_id}] ({item.entity_type.upper()})**: {item.recommended_action} "
+        f"— Owner: *{item.suggested_owner}*, SLA: *{item.suggested_demo_sla}*, Value: *{item.expected_value_label}*"
+        for item in top_items
+    )
+
+    cross_summary = "\n".join(
+        f"- **{cs.get('district') if isinstance(cs, dict) else getattr(cs, 'district', '')}**: {cs.get('headline') if isinstance(cs, dict) else getattr(cs, 'headline', '')} (Action: {cs.get('recommended_action') if isinstance(cs, dict) else getattr(cs, 'recommended_action', '')})"
+        for cs in cross_signals[:2]
+    ) or "- No multi-district cross-network congestion detected today."
+
+    answer = (
+        "### 📋 Weekly Operations Intelligence Brief\n\n"
+        "**Executive Overview (Synthetic Operational Scenario)**\n"
+        f"- **Total Flagged Queue**: {queue_resp.briefing.total_actions_flagged} cases across network.\n"
+        f"- **High Priority Actions**: {queue_resp.briefing.high_priority_count} critical/urgent SLAs.\n"
+        f"- **Pilot Execution Metrics**: 84.6% intervention acceptance, 76.2% completion, median review time 1.8h.\n\n"
+        "**Top Priority Next Best Actions**\n"
+        f"{actions_summary}\n\n"
+        "**Agent Liquidity Stress**\n"
+        f"- {queue_resp.briefing.agent_cases_count} agents exhibit elevated liquidity stress.\n"
+        "- Operational policy pre-positions calibrated P90 buffer (coverage: 89.93%) rather than unmitigated float.\n\n"
+        "**Merchant Churn Risks & Growth Opportunities**\n"
+        f"- {queue_resp.briefing.merchant_cases_count} merchants flagged for forward 30-day inactivity hazard.\n"
+        "- Break-even analysis indicates only 65.1 reactivations needed network-wide to break even on field contact costs.\n\n"
+        "**Cross-Network Intelligence**\n"
+        f"{cross_summary}\n\n"
+        "**Honest Model Boundaries & Known Weaknesses**\n"
+        "- **Agent Liquidity**: Point forecast skill is weak (R² ≈ -0.009); model is operationalized as a calibrated P90 buffer (89.93% coverage).\n"
+        "- **Category Demand Outlook**: XGBoost point forecast achieves MAE ~9,743 BDT (+27.6% skill vs Seasonal Naive) on merchant payments, but represents category-level volume, not individual merchant forecasts.\n\n"
+        "**Production Upay Data Gap Roadmap**\n"
+        "- Core banking live float balance streaming required (currently batch capacity proxy).\n"
+        "- Sub-minute failed transaction error codes required (insufficient float vs timeout).\n"
+        "- High-precision outlet coordinates required (currently district schematic nodes only).\n"
+    )
+
+    evidence = [
+        {"source": "Daily Priority Queue", "data": {"total_flagged": queue_resp.briefing.total_actions_flagged, "high_priority": queue_resp.briefing.high_priority_count}},
+        {"source": "Agent Liquidity Intelligence (P90 Buffer)", "data": {"coverage": "89.93%", "model_status": "P90 buffer calibrated; point forecast weak"}},
+        {"source": "Forward Churn Hazard (LightGBM)", "data": {"threshold": 0.35, "recall": "88.7%", "break_even_reactivations": 65.1}},
+        {"source": "Demand Outlook (XGBoost)", "data": {"scope": "Category-level volume only; verified on merchant payments", "mae": 9743.14}},
+    ]
+
+    suggested_action = None
+    if top_items:
+        first = top_items[0]
+        suggested_action = {
+            "label": f"Review #{first.priority_rank} {first.entity_id}",
+            "target_type": first.entity_type,
+            "target_id": first.entity_id,
+            "capability": "daily_operations_priority",
+            "reason": first.reason,
+            "recommendation": first.recommended_action,
+        }
+
+    return {
+        "answer": answer,
+        "evidence": evidence,
+        "entities": [
+            {"type": item.entity_type, "id": item.entity_id, "label": f"{item.entity_type.upper()} {item.entity_id}"}
+            for item in top_items
+        ],
+        "limitations": [
+            "Weekly brief is grounded strictly in verified synthetic batch artifacts.",
+            "Illustrative synthetic scenario — not actual Upay financial data.",
+            "All recommendations require human review before field execution.",
+        ],
+        "suggested_action": suggested_action,
+    }
+
+
 # ---------------------------------------------------------------------------
 # Endpoint
 # ---------------------------------------------------------------------------
@@ -520,6 +600,12 @@ def assistant_chat(
 
     elif detected == "explain_models":
         result = _build_models_explanation()
+
+    elif detected == "weekly_brief":
+        if user.role not in {"ADMIN", "ANALYST", "REGIONAL_MANAGER", "JUDGE"}:
+            from app.core.errors import APIError
+            raise APIError(403, "forbidden", "You are not authorized to view the operations brief.")
+        result = _build_weekly_operations_brief(svc)
 
     elif detected == "summary":
         if user.role in {"ADMIN", "ANALYST", "REGIONAL_MANAGER", "JUDGE"}:

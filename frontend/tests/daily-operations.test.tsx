@@ -67,7 +67,12 @@ const mockPrioritiesData: DailyPrioritiesResponse = {
       reason: "Severe liquidity stress before peak cash-out period",
       evidence: "Predicted cash-out: 42,500 BDT; Liquidity stress: 94.2% (Risk band: CRITICAL)",
       recommended_action: "Contact agent and arrange emergency float / cash support before peak window",
+      expected_value_score: 1500,
       expected_value_label: "Prevent failed cash-out transactions and agent cash stockout",
+      suggested_owner: "Agent Operations",
+      suggested_demo_sla: "24h · Next business day contact",
+      risk_or_opportunity: "RISK",
+      source_model_or_rule: "LightGBM Regressor (Operational P90 Buffer)",
       confidence_label: "High quality (Validated LightGBM batch)",
       source_modules: ["liquidity", "agent_performance"],
       review_status: "PENDING_REVIEW",
@@ -86,7 +91,12 @@ const mockPrioritiesData: DailyPrioritiesResponse = {
       reason: "High inactivity / 30-day merchant churn risk signal",
       evidence: "30-day inactivity model flagged risk (idle 28d, probability: 82.5%)",
       recommended_action: "Field officer follow-up visit and merchant retention campaign review",
+      expected_value_score: 8500,
       expected_value_label: "Prevent merchant attrition and retain wallet transaction volume",
+      suggested_owner: "Merchant Operations",
+      suggested_demo_sla: "48h · Field officer visit",
+      risk_or_opportunity: "RISK",
+      source_model_or_rule: "LightGBM Classifier (Phase 2 Forward Hazard v2.0)",
       confidence_label: "High quality (Reconstructed exact feature match)",
       source_modules: ["churn"],
       review_status: "PENDING_REVIEW",
@@ -132,8 +142,13 @@ describe("Daily Operations Queue Component", () => {
       </LanguageProvider>
     );
 
-    expect(await screen.findByText(/SYNTHETIC EXAMPLE/i)).toBeInTheDocument();
-    expect(screen.getByText(/Pre-Peak Liquidity Rebalancing/i)).toBeInTheDocument();
+    const tabButton = await screen.findByRole("button", { name: /Worked Case Studies/i });
+    fireEvent.click(tabButton);
+
+    expect(await screen.findByText(/CANONICAL CASE STUDIES/i)).toBeInTheDocument();
+    expect(screen.getByText(/WORKED AGENT CASE/i)).toBeInTheDocument();
+    expect(screen.getByText(/AGT00025/i)).toBeInTheDocument();
+    expect(screen.getByText(/MRC000001/i)).toBeInTheDocument();
   });
 
   it("submits proposal to Action Review when clicking Review Action", async () => {

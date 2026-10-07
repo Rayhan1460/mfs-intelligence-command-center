@@ -8,9 +8,11 @@ InterventionStatus = Literal[
     "PROPOSED",
     "APPROVED",
     "REJECTED",
+    "DEFERRED",
     "IN_PROGRESS",
     "COMPLETED",
     "DISMISSED",
+    "NO_RESPONSE",
 ]
 
 
@@ -20,10 +22,18 @@ class InterventionCreate(BaseModel):
     capability: str = Field(min_length=1, max_length=80)
     recommended_action: str = Field(min_length=1, max_length=2000)
     reason: str = Field(min_length=1, max_length=4000)
+    owner: str | None = Field(default=None, max_length=80)
+    due_date: str | None = Field(default=None, max_length=32)
+    expected_impact: str | None = Field(default=None, max_length=2000)
 
 
 class InterventionUpdate(BaseModel):
     status: InterventionStatus
+    owner: str | None = Field(default=None, max_length=80)
+    due_date: str | None = Field(default=None, max_length=32)
+    expected_impact: str | None = Field(default=None, max_length=2000)
+    observed_outcome: str | None = Field(default=None, max_length=2000)
+    feedback: str | None = Field(default=None, max_length=2000)
 
 
 class InterventionResponse(BaseModel):
@@ -36,8 +46,31 @@ class InterventionResponse(BaseModel):
     status: str
     created_by: str
     approved_by: str | None
+    owner: str | None = None
+    due_date: str | None = None
+    expected_impact: str | None = None
+    observed_outcome: str | None = None
+    feedback: str | None = None
+    completion_timestamp: str | None = None
     created_at: str
     updated_at: str
+
+
+class OutcomesSummaryResponse(BaseModel):
+    synthetic_demo_history: bool = True
+    label: str = "SYNTHETIC DEMO HISTORY — illustrative intervention tracking"
+    total_interventions: int
+    proposed: int
+    approved: int
+    in_progress: int
+    completed: int
+    rejected: int
+    deferred: int
+    no_response: int
+    median_review_time_hours: float
+    action_acceptance_rate_percent: float
+    completion_rate_percent: float
+    outcome_coverage_percent: float
 
 
 class FeedbackCreate(BaseModel):

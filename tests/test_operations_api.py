@@ -142,3 +142,92 @@ def test_action_review_integration(client: TestClient) -> None:
     assert updated_first["entity_id"] == target_id
     assert updated_first["review_status"] == "PROPOSED"
     assert updated_first["intervention_id"] == created_id
+
+
+def test_expected_value_sorting_and_next_best_action_fields(client: TestClient) -> None:
+    # 1. Test sort by expected value
+    res_ev = client.get("/api/v1/operations/daily-priorities", params={"sort_by": "expected_value", "limit": 10})
+    assert res_ev.status_code == 200
+    items_ev = res_ev.json()["items"]
+    ev_scores = [item["expected_value_score"] for item in items_ev]
+    assert ev_scores == sorted(ev_scores, reverse=True)
+
+    # 2. Test Next Best Action schema fields
+    for item in items_ev:
+        assert item["suggested_owner"] in {"Agent Operations", "Merchant Operations", "District Manager", "Field Team", "Analyst"}
+        assert any(term in item["suggested_demo_sla"].lower() for term in ["suggested demo sla", "24h", "48h", "hour", "day", "contact", "sla"])
+        assert item["expected_value_score"] > 0
+        assert isinstance(item["expected_value_label"], str) and len(item["expected_value_label"]) > 0
+        assert item["risk_or_opportunity"] in {"RISK", "OPPORTUNITY"}
+        assert item["source_model_or_rule"] != ""
+
+    # 3. Test sort by priority
+    res_pri = client.get("/api/v1/operations/daily-priorities", params={"sort_by": "priority", "limit": 10})
+    assert res_pri.status_code == 200
+    items_pri = res_pri.json()["items"]
+    pri_scores = [item["priority_score"] for item in items_pri]
+    assert pri_scores == sorted(pri_scores, reverse=True)
+
+
+def test_synthetic_business_impact_assumptions_label(client: TestClient) -> None:
+    res = client.get("/api/v1/operations/daily-priorities", params={"limit": 5})
+    assert res.status_code == 200
+    data = res.json()
+    assert "business_impact" in data
+    impact = data["business_impact"]
+    disclaimer_text = impact.get("synthetic_disclaimer") or impact.get("disclaimer") or ""
+    assert "Illustrative synthetic scenario" in disclaimer_text
+    assert "agent_shortfall_service_cost_proxy" in impact["assumptions"]
+    assert "merchant_retention_value_proxy" in impact["assumptions"]
+    assert "agent_liquidity_simulation" in impact or "liquidity_simulation" in impact
+    assert any("churn" in k for k in impact.keys())
+
+
+def test_cross_network_signals_integrity(client: TestClient) -> None:
+    res = client.get("/api/v1/operations/daily-priorities", params={"limit": 5})
+    assert res.status_code == 200
+    data = res.json()
+    signals = data.get("cross_network_signals", [])
+    assert isinstance(signals, list)
+    if signals:
+        first = signals[0]
+        assert "district" in first
+        assert "headline" in first
+        assert "recommended_action" in first
+        # Verify no fake GPS or fabricated proximity
+        assert "nearby" not in first["headline"].lower()
+        assert "gps" not in first["headline"].lower()
+
+
+def test_outcomes_summary_endpoint(client: TestClient) -> None:
+    res = client.get("/api/v1/interventions/outcomes-summary")
+    assert res.status_code == 200
+    outcomes = res.json()
+    assert outcomes["synthetic_demo_history"] is True
+    assert "action_acceptance_rate_percent" in outcomes
+    assert "completion_rate_percent" in outcomes
+    assert "median_review_time_hours" in outcomes
+    assert outcomes["action_acceptance_rate_percent"] >= 70.0
+    assert outcomes["completion_rate_percent"] >= 60.0
+
+
+def test_weekly_operations_brief_copilot(client: TestClient) -> None:
+    csrf_token = client.cookies.get("mfs_csrf")
+    headers = {"X-CSRF-Token": csrf_token} if csrf_token else {}
+    res = client.post(
+        "/api/v1/assistant/chat",
+        json={"message": "Generate Weekly Operations Brief"},
+        headers=headers,
+    )
+    assert res.status_code == 200
+    chat = res.json()
+    answer = chat["answer"]
+    assert "Weekly Operations Intelligence Brief" in answer
+    assert "Executive Overview" in answer
+    assert "Top Priority Next Best Actions" in answer
+    assert "Agent Liquidity" in answer
+    assert "Merchant Churn" in answer
+    assert "Weaknesses" in answer or "Boundaries" in answer
+    # Honest model boundaries verified
+    assert "R²" in answer or "P90" in answer
+    assert len(chat["evidence"]) >= 2

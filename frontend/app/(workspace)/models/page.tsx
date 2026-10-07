@@ -96,6 +96,13 @@ function ModelCard({ model }: { model: RegistryModel }) {
         </div>
       )}
 
+      {/* Champion Selection Criterion */}
+      {model.champion_selection_criterion && (
+        <div className="notice notice-info" style={{ marginTop: 12, fontSize: "0.82rem", borderLeft: "4px solid #0056B3" }}>
+          <strong>Champion Selection Criterion:</strong> {model.champion_selection_criterion}
+        </div>
+      )}
+
       {/* Operational Threshold */}
       {model.threshold_rationale && (
         <div className="notice notice-gold" style={{ marginTop: 12, fontSize: "0.82rem" }}>

@@ -49,6 +49,8 @@ def compute_actuals():
             mid = r.get("merchant_id")
             if not mid or mid not in m_to_cat:
                 continue
+            if r.get("transaction_type") != "MERCHANT_PAYMENT":
+                continue
             cat = m_to_cat[mid]
             t_date = r["transaction_date"][:10]
             amt = float(r.get("transaction_amount") or 0.0)

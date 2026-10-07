@@ -1,4 +1,6 @@
-from collections import Counter
+import json
+from collections import Counter, defaultdict
+from pathlib import Path
 from typing import Any
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -209,6 +211,31 @@ class OperationsService:
                 review_status = interv.status if interv else "PENDING_REVIEW"
                 intervention_id = interv.id if interv else None
 
+                # Suggested owner and demo SLA
+                if liq_risk == "CRITICAL":
+                    owner = "Agent Operations"
+                    sla = "4h — Before 2 PM peak"
+                elif liq_risk == "HIGH":
+                    owner = "Agent Operations"
+                    sla = "12h — Same-day resolution"
+                elif has_service_gap or is_underperf_pred:
+                    owner = "Field Team"
+                    sla = "24h — Next business day visit"
+                elif has_abnormal:
+                    owner = "District Manager"
+                    sla = "48h — Compliance review"
+                else:
+                    owner = "Agent Operations"
+                    sla = "24h — Next business day"
+
+                # Synthetic expected value impact: 15.0 BDT multiplier (1,500 BDT shortfall service cost proxy)
+                ev_score = round(score * 15.0, 1)
+                source_model = (
+                    "LightGBM Operational P90 Buffer"
+                    if "liquidity" in source_modules
+                    else "Random Forest Underperformance Classifier"
+                )
+
                 candidates.append(
                     {
                         "priority_score": score,
@@ -222,7 +249,13 @@ class OperationsService:
                         "evidence": evidence,
                         "recommended_action": action,
                         "expected_value_label": exp_val,
+                        "expected_value_score": ev_score,
                         "confidence_label": "P90 operational buffer — calibrated coverage; point forecast weak",
+                        "risk_or_opportunity": "RISK",
+                        "suggested_owner": owner,
+                        "suggested_demo_sla": sla,
+                        "source_model_or_rule": source_model,
+                        "model_version": "2.0-cleaned-next-day",
                         "source_modules": source_modules,
                         "review_status": review_status,
                         "intervention_id": intervention_id,
@@ -313,6 +346,24 @@ class OperationsService:
                 review_status = interv.status if interv else "PENDING_REVIEW"
                 intervention_id = interv.id if interv else None
 
+                if is_churn_flagged:
+                    risk_type = "RISK"
+                    owner = "Field Team" if score >= 85.0 else "Merchant Operations"
+                    sla = "24h — Next business day contact" if score >= 85.0 else "48h — Scheduled review"
+                    source_model = (
+                        "LightGBM Forward Churn Hazard Model"
+                        if is_fwd_source
+                        else "Historical Inactivity Rule"
+                    )
+                else:
+                    risk_type = "GROWTH_OPPORTUNITY"
+                    owner = "Merchant Operations"
+                    sla = "72h — Merchant campaign enrollment"
+                    source_model = "Rule and Peer Growth Engine"
+
+                # Synthetic expected value impact: 85.0 BDT multiplier (8,500 BDT retention value proxy)
+                ev_score = round(score * 85.0, 1)
+
                 candidates.append(
                     {
                         "priority_score": score,
@@ -326,7 +377,13 @@ class OperationsService:
                         "evidence": evidence,
                         "recommended_action": action,
                         "expected_value_label": exp_val,
+                        "expected_value_score": ev_score,
                         "confidence_label": "High quality (Reconstructed exact feature match)",
+                        "risk_or_opportunity": risk_type,
+                        "suggested_owner": owner,
+                        "suggested_demo_sla": sla,
+                        "source_model_or_rule": source_model,
+                        "model_version": "2.0-forward-looking",
                         "source_modules": source_modules,
                         "review_status": review_status,
                         "intervention_id": intervention_id,
@@ -334,9 +391,9 @@ class OperationsService:
                     }
                 )
 
-        # Deterministic ranking: highest priority_score first, then entity_type ("agent" before "merchant"), then entity_id
+        # Default ranking: Highest expected_value_score first, then priority_score, then entity_id
         candidates.sort(
-            key=lambda item: (-item["priority_score"], item["entity_type"], item["entity_id"])
+            key=lambda item: (-item["expected_value_score"], -item["priority_score"], item["entity_id"])
         )
 
         output: list[PriorityActionItem] = []
@@ -349,8 +406,49 @@ class OperationsService:
             )
         return output
 
-    def compute_morning_briefing(
+    def compute_cross_network_signals(
         self, items: list[PriorityActionItem]
+    ) -> list[dict[str, Any]]:
+        """
+        Cross-network intelligence connecting merchant demand & agent liquidity
+        strictly by shared district administrative dimension (never fabricating GPS proximity).
+        """
+        by_district = defaultdict(lambda: {"agents": [], "merchants": []})
+        for item in items:
+            d = item.district
+            if d and d not in {"Unknown", "N/A"}:
+                if item.entity_type == "agent":
+                    by_district[d]["agents"].append(item)
+                else:
+                    by_district[d]["merchants"].append(item)
+
+        signals: list[dict[str, Any]] = []
+        for dist, group in sorted(by_district.items()):
+            crit_agents = [
+                a for a in group["agents"]
+                if a.priority_level == "HIGH" and "liquidity" in a.reason.lower()
+            ]
+            active_merchants = [
+                m for m in group["merchants"]
+                if m.priority_level in {"HIGH", "MEDIUM"}
+            ]
+            if crit_agents and active_merchants:
+                signals.append({
+                    "district": dist,
+                    "signal_type": "CROSS_NETWORK_CORRELATION",
+                    "critical_agent_count": len(crit_agents),
+                    "active_merchant_count": len(active_merchants),
+                    "headline": f"Demand pressure overlaps with agent liquidity stress in District {dist}.",
+                    "recommended_action": f"Review float positioning and cash support across {len(crit_agents)} agent outlets in {dist} before peak merchant transaction volume window.",
+                    "operational_scope": "District-level administrative correlation (no unverified GPS proximity assumed)",
+                    "severity": "HIGH",
+                })
+        return signals
+
+    def compute_morning_briefing(
+        self,
+        items: list[PriorityActionItem],
+        cross_network_signals: list[dict[str, Any]] | None = None,
     ) -> MorningBriefing:
         liq_rows = self.repository.rows("liquidity")
         latest_date = max((r.get("target_date", "") for r in liq_rows), default="2026-09-30")
@@ -407,6 +505,11 @@ class OperationsService:
             f"মোট {high_count}টি জরুরি বিষয়ে তাৎক্ষণিক সিদ্ধান্ত নেওয়া প্রয়োজন।"
         )
 
+        cross_alert = None
+        if cross_network_signals:
+            top_cross = cross_network_signals[0]
+            cross_alert = f"District {top_cross['district']}: {top_cross['critical_agent_count']} liquidity-stressed agents intersect with active merchant payment flow."
+
         return MorningBriefing(
             as_of_date=latest_date,
             total_actions_flagged=total,
@@ -417,6 +520,7 @@ class OperationsService:
             merchant_cases_count=merchant_count,
             top_operational_reason=top_reason,
             top_recommended_action=top_action,
+            cross_network_alert=cross_alert,
             briefing_text_en=en_text,
             briefing_text_bn=bn_text,
         )
@@ -429,12 +533,14 @@ class OperationsService:
         entity_type: str | None = None,
         priority: str | None = None,
         district: str | None = None,
+        sort_by: str | None = "expected_value",
         session: Session | None = None,
     ) -> DailyPrioritiesResponse:
         all_candidates = self.get_candidate_priorities(session)
-        briefing = self.compute_morning_briefing(all_candidates)
+        cross_signals = self.compute_cross_network_signals(all_candidates)
+        briefing = self.compute_morning_briefing(all_candidates, cross_signals)
 
-        filtered = all_candidates
+        filtered = list(all_candidates)
         if entity_type:
             target_type = entity_type.casefold()
             filtered = [item for item in filtered if item.entity_type == target_type]
@@ -445,7 +551,34 @@ class OperationsService:
             dist = district.casefold()
             filtered = [item for item in filtered if dist in item.district.casefold()]
 
-        paginated = filtered[offset : offset + limit]
+        # Apply sorting
+        if sort_by == "priority":
+            filtered.sort(key=lambda item: (-item.priority_score, item.entity_type, item.entity_id))
+        elif sort_by == "risk":
+            severity_order = {"HIGH": 0, "MEDIUM": 1, "LOW": 2}
+            filtered.sort(key=lambda item: (severity_order.get(item.priority_level, 3), -item.priority_score))
+        elif sort_by == "newest":
+            filtered.sort(key=lambda item: item.entity_id, reverse=True)
+        else:  # default: expected_value
+            filtered.sort(key=lambda item: (-item.expected_value_score, -item.priority_score, item.entity_id))
+
+        # Re-index priority rank post-sort
+        ranked_filtered: list[PriorityActionItem] = []
+        for rank_idx, item in enumerate(filtered, start=1):
+            item_dict = item.model_dump()
+            item_dict["priority_rank"] = rank_idx
+            ranked_filtered.append(PriorityActionItem(**item_dict))
+
+        paginated = ranked_filtered[offset : offset + limit]
+
+        # Load business impact assumptions
+        business_impact = None
+        assumptions_path = Path(__file__).resolve().parent / "business_impact_assumptions.json"
+        if assumptions_path.exists():
+            try:
+                business_impact = json.loads(assumptions_path.read_text(encoding="utf-8"))
+            except Exception:
+                pass
 
         return DailyPrioritiesResponse(
             source="synthetic",
@@ -454,7 +587,9 @@ class OperationsService:
             scoring_formula=SCORING_FORMULA_DOC,
             briefing=briefing,
             items=paginated,
-            total=len(filtered),
+            cross_network_signals=cross_signals,
+            business_impact=business_impact,
+            total=len(ranked_filtered),
             limit=limit,
             offset=offset,
         )

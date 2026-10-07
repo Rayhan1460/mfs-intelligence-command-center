@@ -31,6 +31,7 @@ def get_daily_priorities(
     entity_type: str | None = Query(None, description="Filter by 'agent' or 'merchant'"),
     priority: str | None = Query(None, description="Filter by 'HIGH', 'MEDIUM', or 'LOW'"),
     district: str | None = Query(None, description="Filter by district name"),
+    sort_by: str | None = Query("expected_value", description="Sort by 'expected_value', 'priority', 'risk', or 'newest'"),
     service: OperationsService = Depends(get_operations_service),
     session: Session = Depends(get_db),
     user: User = Depends(get_current_user),
@@ -48,6 +49,7 @@ def get_daily_priorities(
         entity_type=scoped_entity_type,
         priority=priority,
         district=district,
+        sort_by=sort_by,
         session=session,
     )
 

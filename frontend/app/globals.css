@@ -27,6 +27,28 @@
   --danger: #C0392B;
   --info: #1976E9;
 
+  /* Semantic design tokens for contrast & surfaces */
+  --text-primary: #102A43;        /* Deep navy for high-contrast readable text */
+  --text-secondary: #334E68;      /* Mid slate for readable secondary text */
+  --text-muted: #627D98;          /* Accessible muted slate */
+  --text-main: #102A43;           /* Ensure fallback is dark, never white */
+
+  --surface-danger: #FEE2E2;      /* Soft rose background */
+  --border-danger: #FCA5A5;       /* Crisp border */
+  --text-on-danger: #991B1B;      /* WCAG AAA dark red text */
+
+  --surface-warning: #FEF3C7;     /* Soft amber background */
+  --border-warning: #FCD34D;      /* Crisp border */
+  --text-on-warning: #92400E;     /* Dark amber text */
+
+  --surface-info: #E0F2FE;        /* Soft sky blue background */
+  --border-info: #7DD3FC;         /* Crisp border */
+  --text-on-info: #0369A1;        /* Dark blue text */
+
+  --surface-success: #DCFCE7;     /* Soft emerald background */
+  --border-success: #86EFAC;      /* Crisp border */
+  --text-on-success: #166534;     /* Dark green text */
+
   /* Semantic aliases used by existing components */
   --ink: #F7FAFF;
   --ink-soft: #EAF4FF;
@@ -37,7 +59,7 @@
   --gold-bright: #FFD43B;
   --gold-dim: #D88900;
   --cream: #102A43;
-  --text: #334E68;
+  --text: #102A43;
   --faint: #9BAFC7;
   --border-strong: #B3CFEE;
   --shadow: 0 4px 24px rgba(11, 78, 162, 0.08);
