@@ -1,0 +1,93 @@
+{
+  "model_name": "Agent Underperformance / Service Gap Classifier",
+  "algorithm": "Random Forest Classifier",
+  "version": "1.0-forward-looking",
+  "random_state": 42,
+  "feature_list": [
+    "agent_type_encoded",
+    "tenure_days",
+    "txn_count_30d",
+    "txn_count_7d",
+    "txn_value_30d",
+    "txn_value_7d",
+    "commission_30d",
+    "active_days_30d",
+    "success_rate_30d",
+    "txn_velocity_ratio",
+    "value_velocity_ratio"
+  ],
+  "target_definition": "Active days < 5 OR volume in bottom 20% in forward 30-day window",
+  "model_comparison_validation": {
+    "Logistic Regression": {
+      "roc_auc": 0.9454,
+      "pr_auc": 0.8443,
+      "precision": 0.6009,
+      "recall": 0.8642,
+      "f1": 0.7089
+    },
+    "Random Forest": {
+      "roc_auc": 0.939,
+      "pr_auc": 0.8249,
+      "precision": 0.6415,
+      "recall": 0.8395,
+      "f1": 0.7273
+    },
+    "LightGBM": {
+      "roc_auc": 0.9399,
+      "pr_auc": 0.8207,
+      "precision": 0.6538,
+      "recall": 0.8395,
+      "f1": 0.7351
+    }
+  },
+  "test_performance": {
+    "roc_auc": 0.9358,
+    "pr_auc": 0.791,
+    "chosen_threshold": 0.4,
+    "precision": 0.5798,
+    "recall": 0.8625,
+    "f1": 0.6935,
+    "confusion_matrix": [
+      [
+        540,
+        100
+      ],
+      [
+        22,
+        138
+      ]
+    ],
+    "class_distribution": {
+      "total_test_rows": 800,
+      "underperforming_count": 160,
+      "normal_count": 640,
+      "base_rate": 0.2
+    }
+  },
+  "top_features": [
+    {
+      "feature": "txn_count_30d",
+      "importance": 0.3075
+    },
+    {
+      "feature": "active_days_30d",
+      "importance": 0.2157
+    },
+    {
+      "feature": "txn_value_30d",
+      "importance": 0.1457
+    },
+    {
+      "feature": "commission_30d",
+      "importance": 0.1172
+    },
+    {
+      "feature": "txn_count_7d",
+      "importance": 0.0816
+    },
+    {
+      "feature": "txn_value_7d",
+      "importance": 0.0469
+    }
+  ]
+}

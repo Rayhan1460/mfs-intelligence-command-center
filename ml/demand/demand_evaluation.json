@@ -1,0 +1,290 @@
+{
+  "model_name": "Merchant Category Demand Forecasting",
+  "algorithm": "XGBoost Regressor (Preserved)",
+  "forecast_horizon": "next_day",
+  "forecast_level": "merchant_category",
+  "evaluation_sample_size": 390,
+  "overall_evaluation": {
+    "model": {
+      "mae": 94618.37,
+      "rmse": 109068.94,
+      "r2": -1.0109
+    },
+    "baselines": {
+      "previous_day_naive": {
+        "mae": 28870.83,
+        "rmse": 37008.49,
+        "r2": 0.7685
+      },
+      "rolling_7d_average": {
+        "mae": 21707.56,
+        "rmse": 28374.26,
+        "r2": 0.8639
+      },
+      "seasonal_naive_7d": {
+        "mae": 28172.45,
+        "rmse": 37334.77,
+        "r2": 0.7644
+      }
+    },
+    "mae_improvement_vs_previous_day": -227.73,
+    "mae_improvement_vs_rolling_7d": -335.88,
+    "mae_improvement_vs_seasonal_naive": -235.85
+  },
+  "uncertainty_intervals": {
+    "method": "Calibrated empirical residual quantiles",
+    "p10_offset_bdt": 41344.62,
+    "p50_offset_bdt": 75670.12,
+    "p90_offset_bdt": 174473.46,
+    "target_coverage_percent": 80.0,
+    "empirical_coverage_percent": 80.26,
+    "is_statistically_supportable": true,
+    "interpretation": "Empirical coverage is 80.26% for the 80% theoretical central interval [P10, P90]."
+  },
+  "per_category_evaluation": {
+    "Education": {
+      "sample_count": 39,
+      "model": {
+        "mae": 72385.65,
+        "rmse": 75067.09,
+        "r2": -13.0915
+      },
+      "seasonal_naive": {
+        "mae": 20369.16,
+        "rmse": 27188.49,
+        "r2": -0.8485
+      },
+      "previous_day_naive": {
+        "mae": 24341.94,
+        "rmse": 29792.61,
+        "r2": -1.2196
+      },
+      "rolling_7d": {
+        "mae": 16236.52,
+        "rmse": 21095.78,
+        "r2": -0.1129
+      },
+      "model_vs_snaive_mae_improvement_pct": -255.37
+    },
+    "Electronics": {
+      "sample_count": 39,
+      "model": {
+        "mae": 53076.8,
+        "rmse": 58309.11,
+        "r2": -4.7835
+      },
+      "seasonal_naive": {
+        "mae": 27901.91,
+        "rmse": 34572.11,
+        "r2": -1.0331
+      },
+      "previous_day_naive": {
+        "mae": 30295.2,
+        "rmse": 35284.16,
+        "r2": -1.1178
+      },
+      "rolling_7d": {
+        "mae": 21420.65,
+        "rmse": 26501.02,
+        "r2": -0.1947
+      },
+      "model_vs_snaive_mae_improvement_pct": -90.23
+    },
+    "Fashion": {
+      "sample_count": 39,
+      "model": {
+        "mae": 64800.33,
+        "rmse": 68451.53,
+        "r2": -8.2183
+      },
+      "seasonal_naive": {
+        "mae": 24125.82,
+        "rmse": 33094.16,
+        "r2": -1.1547
+      },
+      "previous_day_naive": {
+        "mae": 23363.71,
+        "rmse": 30585.49,
+        "r2": -0.8404
+      },
+      "rolling_7d": {
+        "mae": 17930.01,
+        "rmse": 23565.57,
+        "r2": -0.0925
+      },
+      "model_vs_snaive_mae_improvement_pct": -168.59
+    },
+    "General Retail": {
+      "sample_count": 39,
+      "model": {
+        "mae": 171879.55,
+        "rmse": 176412.83,
+        "r2": -20.2341
+      },
+      "seasonal_naive": {
+        "mae": 43597.73,
+        "rmse": 54791.91,
+        "r2": -1.0484
+      },
+      "previous_day_naive": {
+        "mae": 40205.3,
+        "rmse": 51007.1,
+        "r2": -0.7752
+      },
+      "rolling_7d": {
+        "mae": 34490.97,
+        "rmse": 41104.68,
+        "r2": -0.1528
+      },
+      "model_vs_snaive_mae_improvement_pct": -294.24
+    },
+    "Grocery": {
+      "sample_count": 39,
+      "model": {
+        "mae": 189934.38,
+        "rmse": 193241.04,
+        "r2": -28.1387
+      },
+      "seasonal_naive": {
+        "mae": 39196.75,
+        "rmse": 49471.02,
+        "r2": -0.9097
+      },
+      "previous_day_naive": {
+        "mae": 36604.32,
+        "rmse": 46516.17,
+        "r2": -0.6884
+      },
+      "rolling_7d": {
+        "mae": 31946.27,
+        "rmse": 39918.6,
+        "r2": -0.2434
+      },
+      "model_vs_snaive_mae_improvement_pct": -384.57
+    },
+    "Healthcare": {
+      "sample_count": 39,
+      "model": {
+        "mae": 47352.64,
+        "rmse": 50799.47,
+        "r2": -6.4232
+      },
+      "seasonal_naive": {
+        "mae": 18195.13,
+        "rmse": 22932.46,
+        "r2": -0.5128
+      },
+      "previous_day_naive": {
+        "mae": 21161.08,
+        "rmse": 26386.34,
+        "r2": -1.0028
+      },
+      "rolling_7d": {
+        "mae": 16205.8,
+        "rmse": 19977.81,
+        "r2": -0.1481
+      },
+      "model_vs_snaive_mae_improvement_pct": -160.25
+    },
+    "Pharmacy": {
+      "sample_count": 39,
+      "model": {
+        "mae": 79866.52,
+        "rmse": 82779.93,
+        "r2": -13.2786
+      },
+      "seasonal_naive": {
+        "mae": 22019.07,
+        "rmse": 30676.61,
+        "r2": -0.9609
+      },
+      "previous_day_naive": {
+        "mae": 26171.32,
+        "rmse": 33472.91,
+        "r2": -1.3347
+      },
+      "rolling_7d": {
+        "mae": 18022.73,
+        "rmse": 23965.17,
+        "r2": -0.1967
+      },
+      "model_vs_snaive_mae_improvement_pct": -262.72
+    },
+    "Restaurant": {
+      "sample_count": 39,
+      "model": {
+        "mae": 121231.2,
+        "rmse": 123570.42,
+        "r2": -28.1222
+      },
+      "seasonal_naive": {
+        "mae": 28697.53,
+        "rmse": 35184.11,
+        "r2": -1.361
+      },
+      "previous_day_naive": {
+        "mae": 27531.1,
+        "rmse": 32716.56,
+        "r2": -1.0414
+      },
+      "rolling_7d": {
+        "mae": 19288.45,
+        "rmse": 24902.14,
+        "r2": -0.1827
+      },
+      "model_vs_snaive_mae_improvement_pct": -322.44
+    },
+    "Transport": {
+      "sample_count": 39,
+      "model": {
+        "mae": 80894.61,
+        "rmse": 84138.34,
+        "r2": -13.6132
+      },
+      "seasonal_naive": {
+        "mae": 27922.42,
+        "rmse": 35137.13,
+        "r2": -1.5485
+      },
+      "previous_day_naive": {
+        "mae": 24929.09,
+        "rmse": 31467.37,
+        "r2": -1.044
+      },
+      "rolling_7d": {
+        "mae": 19441.61,
+        "rmse": 23970.3,
+        "r2": -0.1861
+      },
+      "model_vs_snaive_mae_improvement_pct": -189.71
+    },
+    "Utility": {
+      "sample_count": 39,
+      "model": {
+        "mae": 64761.98,
+        "rmse": 70669.01,
+        "r2": -5.1375
+      },
+      "seasonal_naive": {
+        "mae": 29699.0,
+        "rmse": 38989.14,
+        "r2": -0.8682
+      },
+      "previous_day_naive": {
+        "mae": 34105.29,
+        "rmse": 44559.14,
+        "r2": -1.4401
+      },
+      "rolling_7d": {
+        "mae": 22092.63,
+        "rmse": 29951.49,
+        "r2": -0.1025
+      },
+      "model_vs_snaive_mae_improvement_pct": -118.06
+    }
+  },
+  "ui_governance": {
+    "display_label": "CATEGORY DEMAND OUTLOOK",
+    "limitation": "Not a merchant-specific forecast. Represents aggregate category volume."
+  }
+}

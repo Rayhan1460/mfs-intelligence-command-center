@@ -44,6 +44,7 @@ export function DailyOperationsQueue() {
   const [successFeedback, setSuccessFeedback] = useState<Record<string, string>>({});
   const [localStatuses, setLocalStatuses] = useState<Record<string, { status: string; id: string }>>({});
   const [showDataRequirements, setShowDataRequirements] = useState(false);
+  const [showAllCases, setShowAllCases] = useState(false);
 
   // Fetch daily priorities from backend API
   const queryParams = new URLSearchParams({ limit: "40", offset: "0" });
@@ -105,6 +106,8 @@ export function DailyOperationsQueue() {
     }
     return true; // ops_manager sees all
   });
+
+  const visibleItems = showAllCases ? displayItems : displayItems.slice(0, 10);
 
   return (
     <div className="daily-operations-container" style={{ marginBottom: 32 }}>
@@ -305,14 +308,21 @@ export function DailyOperationsQueue() {
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <span style={{ color: "#ef4444" }}>●</span>
               <h2 style={{ fontSize: "1.35rem", fontWeight: 700, margin: 0 }}>
-                {t("ops.priority_actions", "TODAY’S PRIORITY ACTIONS")}
+                {showAllCases
+                  ? t("ops.priority_actions", "TODAY’S PRIORITY ACTIONS")
+                  : t("ops.top_10_actions", "TODAY’S TOP 10 ACTIONS")}
               </h2>
             </div>
             <p className="muted text-small" style={{ margin: "4px 0 0" }}>
-              {t(
-                "ops.priority_actions_sub",
-                "Ranked operational queue combining agent liquidity pressure, merchant inactivity, and service gap signals."
-              )}
+              {showAllCases
+                ? t(
+                    "ops.priority_actions_sub",
+                    "Full ranked operational queue combining agent liquidity pressure, forward merchant hazard, and service gap signals."
+                  )
+                : t(
+                    "ops.top_10_sub",
+                    `Focused top 10 decisions for morning operations review (showing 10 of ${displayItems.length} flagged cases).`
+                  )}
             </p>
           </div>
 
@@ -383,9 +393,9 @@ export function DailyOperationsQueue() {
           />
         )}
 
-        {resource.status === "success" && displayItems.length > 0 && (
+        {resource.status === "success" && visibleItems.length > 0 && (
           <div className="priority-action-list" style={{ display: "flex", flexDirection: "column", gap: 12, padding: "16px" }}>
-            {displayItems.map((item) => {
+            {visibleItems.map((item) => {
               const localState = localStatuses[item.entity_id];
               const effectiveStatus = localState?.status ?? item.review_status ?? "PENDING_REVIEW";
               const isSubmitting = submittingId === item.entity_id;
@@ -579,6 +589,32 @@ export function DailyOperationsQueue() {
                 </article>
               );
             })}
+            {displayItems.length > 10 && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  paddingTop: 12,
+                  borderTop: "1px dashed var(--border-subtle, rgba(255, 255, 255, 0.1))",
+                }}
+              >
+                <button
+                  type="button"
+                  className="button button-outline"
+                  onClick={() => setShowAllCases((prev) => !prev)}
+                  style={{
+                    padding: "8px 24px",
+                    fontSize: "0.86rem",
+                    fontWeight: 600,
+                    borderRadius: "8px",
+                  }}
+                >
+                  {showAllCases
+                    ? t("ops.show_top_10", "← Show Top 10 Only")
+                    : t("ops.view_all_flagged", `View all ${displayItems.length} flagged cases →`)}
+                </button>
+              </div>
+            )}
           </div>
         )}
 

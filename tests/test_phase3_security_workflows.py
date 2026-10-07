@@ -34,7 +34,9 @@ def test_auth_login_password_hash_session_hash_cookie_me_and_logout(make_client,
 
     with Session(isolated_database) as session:
         user = session.scalar(select(User).where(User.email == email))
+        assert user is not None
         auth_session = session.scalar(select(AuthSession).where(AuthSession.user_id == user.id))
+        assert auth_session is not None
         assert user.password_hash != TEST_PASSWORD
         assert user.password_hash.startswith("$argon2")
         assert auth_session.token_hash == hashlib.sha256(raw_token.encode()).hexdigest()
@@ -51,6 +53,7 @@ def test_auth_login_password_hash_session_hash_cookie_me_and_logout(make_client,
     assert client.get("/api/v1/me").status_code == 401
     with Session(isolated_database) as session:
         revoked = session.scalar(select(AuthSession).where(AuthSession.user_id == user.id))
+        assert revoked is not None
         assert revoked.revoked_at is not None
         events = session.scalars(select(AuditEvent)).all()
         assert {event.event_type for event in events} >= {"LOGIN_SUCCESS", "LOGOUT"}
@@ -72,12 +75,13 @@ def test_login_failure_inactive_user_throttling_and_audit(make_client, isolated_
     )
     assert inactive.status_code == 401
 
+    response = None
     for _ in range(5):
         response = client.post(
             "/api/v1/auth/login",
             json={"email": TEST_ACCOUNTS["ADMIN"][0], "password": "wrong-password"},
         )
-    assert response.status_code == 429
+    assert response is not None and response.status_code == 429
     with Session(isolated_database) as session:
         assert session.scalar(select(AuditEvent.event_type).where(AuditEvent.event_type == "LOGIN_FAILURE"))
 
@@ -123,6 +127,7 @@ def test_expired_session_is_rejected(make_client, isolated_database):
     raw_token = client.cookies.get(settings.session_cookie_name)
     with Session(isolated_database) as session:
         auth_session = session.scalar(select(AuthSession).where(AuthSession.token_hash == hash_secret(raw_token)))
+        assert auth_session is not None
         auth_session.expires_at = datetime.now(timezone.utc) - timedelta(minutes=1)
         session.commit()
     assert client.get("/api/v1/me").status_code == 401
@@ -233,7 +238,8 @@ def test_intervention_list_get_target_validation_and_csrf(make_client, isolated_
         headers=csrf_headers(analyst),
     ).status_code == 403
     with Session(isolated_database) as session:
-        assert session.scalar(select(Intervention).where(Intervention.id == intervention_id)).status == "PROPOSED"
+        interv = session.scalar(select(Intervention).where(Intervention.id == intervention_id))
+        assert interv is not None and interv.status == "PROPOSED"
 
 
 def test_feedback_submit_permissions_scope_and_audit(make_client, isolated_database):

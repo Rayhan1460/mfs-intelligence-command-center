@@ -23,7 +23,108 @@ function metricEntries(metrics: RegistryModel["documented_metrics"]) {
 }
 
 function ModelCard({ model }: { model: RegistryModel }) {
-  return <article className="model-card"><div className="model-card-head"><div><p className="eyebrow">{model.engine_type.startsWith("ML:") ? "MACHINE LEARNING" : "DECISION ENGINE"}</p><h2>{model.capability}</h2><p className="model-engine">{model.engine_type}</p></div><span className="badge badge-synthetic">Synthetic</span></div><div className="model-facts"><span><small>Serving</small>{model.serving_mode}</span><span><small>Horizon</small>{model.horizon ?? "Snapshot"}</span>{model.version && <span><small>Version</small>{model.version}</span>}{model.forecast_scope && <span><small>Scope</small>{model.forecast_scope}</span>}</div>{model.artifact && <p className="muted text-small">Batch source: <code>{model.artifact}</code></p>}{metricEntries(model.documented_metrics).length > 0 && <><p className="section-label">Documented metrics</p><div className="metric-chip-grid">{metricEntries(model.documented_metrics).map(([key, value]) => <span className="metric-chip" key={key}>{key.replaceAll("_", " ")}: <strong>{value}</strong></span>)}</div></>}<p className="section-label">Limitations</p><ReasonList items={model.limitations} /><div className="panel-footer"><SourceBadge /> This record contains documented facts only.</div></article>;
+  const isML = model.engine_type.startsWith("ML:");
+  const badgeLabel = isML
+    ? "MACHINE LEARNING"
+    : model.engine_type.includes("PERCENTILE")
+      ? "PERCENTILE ENGINE"
+      : "RULE ENGINE";
+
+  return (
+    <article className="model-card">
+      <div className="model-card-head">
+        <div>
+          <p className="eyebrow">{badgeLabel}</p>
+          <h2>{model.capability}</h2>
+          <p className="model-engine">{model.engine_type}</p>
+        </div>
+        <span className={`badge ${isML ? "badge-success" : "badge-neutral"}`}>{badgeLabel}</span>
+      </div>
+
+      <div className="model-facts">
+        <span><small>Serving</small>{model.serving_mode}</span>
+        <span><small>Horizon</small>{model.horizon ?? "Snapshot"}</span>
+        {model.version && <span><small>Model Version</small>{model.version}</span>}
+        {model.data_version && <span><small>Data Version</small>{model.data_version}</span>}
+        {model.baseline && <span><small>Baseline</small>{model.baseline}</span>}
+        {model.forecast_scope && <span><small>Scope</small>{model.forecast_scope}</span>}
+      </div>
+
+      {model.artifact && (
+        <p className="muted text-small" style={{ marginTop: 8 }}>
+          Batch artifact: <code>{model.artifact}</code>
+        </p>
+      )}
+
+      {/* Top Features */}
+      {model.top_features && model.top_features.length > 0 && (
+        <div style={{ marginTop: 14 }}>
+          <p className="section-label">Top Predictive Features</p>
+          <div className="table-wrap" style={{ marginTop: 6, marginBottom: 10 }}>
+            <table style={{ fontSize: "0.82rem" }}>
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Importance Score</th>
+                  {model.top_features[0].normalized_pct !== undefined && <th>Weight (%)</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {model.top_features.map((f) => (
+                  <tr key={f.feature}>
+                    <td><code>{f.feature}</code></td>
+                    <td><strong>{f.importance}</strong></td>
+                    {f.normalized_pct !== undefined && <td>{f.normalized_pct}%</td>}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* Peer Engine Logic Specification */}
+      {model.peer_grouping_columns && (
+        <div style={{ marginTop: 12, padding: "10px 14px", background: "rgba(255,255,255,0.03)", borderRadius: "8px", border: "1px solid var(--border-subtle, rgba(255,255,255,0.08))" }}>
+          <p className="section-label" style={{ marginBottom: 6 }}>Cohort &amp; Percentile Specification</p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 12px", fontSize: "0.8rem" }}>
+            <div><small className="muted">Peer Columns:</small> <strong>{model.peer_grouping_columns.join(" + ")}</strong></div>
+            <div><small className="muted">Cohort Size:</small> <strong>{model.peer_group_size}</strong></div>
+            <div style={{ gridColumn: "1 / -1" }}><small className="muted">Percentile Logic:</small> <span>{model.percentile_definition}</span></div>
+            <div style={{ gridColumn: "1 / -1" }}><small className="muted">Fallback Logic:</small> <span>{model.fallback_behavior}</span></div>
+          </div>
+        </div>
+      )}
+
+      {/* Operational Threshold */}
+      {model.threshold_rationale && (
+        <div className="notice notice-gold" style={{ marginTop: 12, fontSize: "0.82rem" }}>
+          <strong>Operational Threshold Policy:</strong> {model.threshold_rationale}
+        </div>
+      )}
+
+      {/* Documented Metrics */}
+      {metricEntries(model.documented_metrics).length > 0 && (
+        <>
+          <p className="section-label" style={{ marginTop: 14 }}>Documented Metrics &amp; Evaluation</p>
+          <div className="metric-chip-grid">
+            {metricEntries(model.documented_metrics).map(([key, value]) => (
+              <span className="metric-chip" key={key}>
+                {key.replaceAll("_", " ")}: <strong>{value}</strong>
+              </span>
+            ))}
+          </div>
+        </>
+      )}
+
+      <p className="section-label" style={{ marginTop: 14 }}>Known Boundaries &amp; Limitations</p>
+      <ReasonList items={model.limitations} />
+
+      <div className="panel-footer" style={{ marginTop: 14 }}>
+        <SourceBadge /> Documented registry specifications &amp; offline evaluations.
+      </div>
+    </article>
+  );
 }
 
 export default function ModelsPage() {

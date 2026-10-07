@@ -148,7 +148,7 @@ class IntelligenceService:
         *,
         as_of: str | None = None,
         horizon: str | None = None,
-        engine: dict[str, str] | None = None,
+        engine: dict[str, Any] | None = None,
         limitations: list[str],
     ) -> dict[str, Any]:
         metadata: dict[str, Any] = {
@@ -271,7 +271,7 @@ class IntelligenceService:
             "agent_tenure_days",
             "status",
         )
-        result = {field: row.get(field) for field in fields}
+        result: dict[str, Any] = {field: row.get(field) for field in fields}
         if row.get("liquidity_limit"):
             result["liquidity_limit_capacity_proxy"] = _number(row["liquidity_limit"])
         if location:

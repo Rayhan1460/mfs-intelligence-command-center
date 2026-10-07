@@ -2,6 +2,8 @@ import hashlib
 import secrets
 from datetime import datetime, timedelta, timezone
 
+from typing import cast
+
 from fastapi import APIRouter, Depends, Request, Response
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -10,7 +12,7 @@ from app.core.config import settings
 from app.core.errors import APIError
 from app.db.models import AuthSession, User
 from app.db.session import get_db
-from app.schemas.auth import LoginRequest, LoginResponse, LogoutResponse, UserResponse
+from app.schemas.auth import LoginRequest, LoginResponse, LogoutResponse, UserResponse, UserRole
 from app.security.audit import record_audit_event
 from app.security.dependencies import get_current_user, hash_secret
 from app.security.passwords import verify_password
@@ -50,7 +52,7 @@ def _user_response(user: User) -> UserResponse:
         id=user.id,
         email=user.email,
         display_name=user.display_name,
-        role=user.role,
+        role=cast(UserRole, user.role),
         linked_entity_type=user.linked_entity_type,
         linked_entity_id=user.linked_entity_id,
     )

@@ -22,18 +22,36 @@ ARTIFACTS: dict[str, str] = {
     "location_intelligence": "Location_Intelligence/Location_Intelligence/location_intelligence_output.csv",
 }
 
+EXTRA_ARTIFACTS: dict[str, str] = {
+    "forward_churn": "Merchant_churn_predictions/merchant_forward_churn_predictions.csv",
+    "agent_underperformance": "Agent_Performance_Intelligence/agent_underperformance_predictions.csv",
+}
+ALL_ARTIFACTS: dict[str, str] = {**ARTIFACTS, **EXTRA_ARTIFACTS}
+
 
 class ArtifactUnavailableError(Exception):
     pass
 
 
 def _artifact_path(name: str) -> Path:
-    relative_path = ARTIFACTS[name]
+    if name not in ALL_ARTIFACTS:
+        raise ArtifactUnavailableError
+    relative_path = ALL_ARTIFACTS[name]
     root = settings.source_assets_root.resolve()
     path = (root / relative_path).resolve()
-    if not path.is_relative_to(root) or not path.is_file():
-        raise ArtifactUnavailableError
-    return path
+    if path.is_file():
+        return path
+    
+    # Fallback to backend/runtime_assets or app/runtime_assets
+    app_dir = Path(__file__).resolve().parents[2]
+    candidates = [
+        app_dir / "runtime_assets" / relative_path,
+        app_dir.parent / "backend" / "runtime_assets" / relative_path,
+    ]
+    for c in candidates:
+        if c.is_file():
+            return c
+    raise ArtifactUnavailableError
 
 
 @lru_cache(maxsize=None)

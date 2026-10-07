@@ -1,0 +1,32 @@
+{
+  "model_name": "Forward-Looking Merchant Churn Predictor",
+  "model_family": "LightGBM Classifier",
+  "version": "2.0-forward-looking",
+  "random_state": 42,
+  "features": [
+    "merchant_category_encoded",
+    "business_size_encoded",
+    "qr_enabled",
+    "app_enabled",
+    "merchant_tenure_days",
+    "days_since_last_txn",
+    "txn_count_7d",
+    "txn_count_30d",
+    "txn_count_60d",
+    "txn_value_7d",
+    "txn_value_30d",
+    "avg_txn_value_30d",
+    "active_days_30d",
+    "txn_velocity_ratio",
+    "value_velocity_ratio"
+  ],
+  "operational_threshold": 0.35,
+  "threshold_rationale": "Threshold 0.35 balances field officer visit capacity with high churn capture. At 0.35, recall is maximized to prevent revenue loss from merchant inactivity while limiting false alarm reviews to an actionable operational workload.",
+  "target_definition": "Zero transactions in (T, T + 30 days] (strictly forward inactivity)",
+  "evaluation_split": "Time-aware split (Train: May 2026, Val: June 2026, Test: July 2026)",
+  "limitations": [
+    "Forward-looking probability reflects 30-day post-cutoff inactivity hazard.",
+    "Requires transaction history prior to cutoff T.",
+    "Legacy rule (days_since_last_txn >= 30) is preserved only as historical label."
+  ]
+}

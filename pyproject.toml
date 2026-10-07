@@ -1,0 +1,17 @@
+[tool.pyright]
+include = ["backend", "tests"]
+extraPaths = [
+    "backend",
+    "tests",
+    "./backend",
+    "./tests"
+]
+executionEnvironments = [
+    { root = "tests", extraPaths = ["backend", "./backend"] },
+    { root = "backend", extraPaths = ["backend", "./backend"] },
+    { root = ".", extraPaths = ["backend", "./backend", "tests", "./tests"] }
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["backend"]
+testpaths = ["tests"]

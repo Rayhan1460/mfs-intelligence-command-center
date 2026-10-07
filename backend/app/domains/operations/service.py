@@ -102,6 +102,15 @@ class OperationsService:
         self, session: Session | None = None
     ) -> list[PriorityActionItem]:
         churn_map = _churn_by_merchant(self.repository)
+        try:
+            forward_churn_map = {r["merchant_id"]: r for r in self.repository.rows("forward_churn")}
+        except Exception:
+            forward_churn_map = {}
+        try:
+            underperf_map = {r["agent_id"]: r for r in self.repository.rows("agent_underperformance")}
+        except Exception:
+            underperf_map = {}
+
         liq_rows = self.repository.rows("liquidity")
         latest_target_date = max((r.get("target_date", "") for r in liq_rows), default="")
         liq_by_agent = {
@@ -124,6 +133,7 @@ class OperationsService:
             district = loc.get("district", "Unknown") if loc else "Unknown"
             liq = liq_by_agent.get(aid)
             perf = perf_by_agent.get(aid)
+            underperf = underperf_map.get(aid)
 
             liq_risk = (liq.get("risk_level") or "").upper() if liq else ""
             stress_pct = _number(liq.get("liquidity_stress_percent")) if liq else None
@@ -133,9 +143,13 @@ class OperationsService:
             is_declining = perf and _boolean(perf.get("declining_agent"))
             has_abnormal = perf and _boolean(perf.get("abnormal_pattern_flag"))
 
+            is_underperf_pred = underperf and underperf.get("predicted_underperformance") == "1"
+            underperf_prob = _number(underperf.get("underperformance_risk_probability")) if underperf else None
+
             if (
                 liq_risk in {"CRITICAL", "HIGH"}
                 or (has_service_gap and is_declining)
+                or is_underperf_pred
                 or has_abnormal
                 or liq_risk == "MEDIUM"
             ):
@@ -158,6 +172,11 @@ class OperationsService:
                         "Field officer visit to inspect shop readiness and liquidity constraints"
                     )
                     exp_val = "Restore cash-in and cash-out availability in coverage area"
+                elif is_underperf_pred:
+                    s, u, c = 0.76, 0.82, 0.95
+                    reason = "Predicted service gap / agent underperformance state"
+                    action = "Schedule territory supervisor visit to inspect outlet activity and agent readiness"
+                    exp_val = "Prevent localized service outage and preserve agent network capacity"
                 elif has_abnormal:
                     s, u, c = 0.72, 0.80, 0.90
                     reason = "Abnormal operational activity flagged for managerial review"
@@ -173,7 +192,7 @@ class OperationsService:
                 evidence = (
                     f"Predicted cash-out: {pred_cashout:,.0f} BDT; Liquidity stress: {stress_pct:.1f}% (Risk band: {liq_risk})"
                     if stress_pct is not None and pred_cashout is not None
-                    else (perf.get("recommendation_reason") or "Validated agent operational signal")
+                    else (((perf.get("recommendation_reason") if perf else None)) or "Validated agent operational signal")
                 )
 
                 source_modules = ["liquidity"]
@@ -203,7 +222,7 @@ class OperationsService:
                         "evidence": evidence,
                         "recommended_action": action,
                         "expected_value_label": exp_val,
-                        "confidence_label": "High quality (Validated LightGBM batch)",
+                        "confidence_label": "P90 operational buffer — calibrated coverage; point forecast weak",
                         "source_modules": source_modules,
                         "review_status": review_status,
                         "intervention_id": intervention_id,
@@ -220,25 +239,35 @@ class OperationsService:
             cat = merchant.get("merchant_category", "General")
             churn = churn_map.get(mid)
             growth = growth_by_merchant.get(mid)
+            fwd = forward_churn_map.get(mid)
+            if fwd:
+                fwd_prob = _number(fwd.get("forward_churn_probability"))
+                fwd_pred = fwd.get("forward_churn_prediction") == "1"
+                is_churn_flagged = fwd_pred or (fwd_prob is not None and fwd_prob >= 0.35)
+                is_fwd_source = True
+            else:
+                churn_risk = (churn.get("risk_level") or "").casefold() if churn else ""
+                is_churn_flagged = bool(churn and (churn_risk == "critical" or churn.get("predicted_churn") == "1"))
+                is_fwd_source = False
 
-            churn_risk = (churn.get("risk_level") or "").casefold() if churn else ""
-            is_churn_flagged = churn and (churn_risk == "critical" or churn.get("predicted_churn") == "1")
             growth_prio = (growth.get("growth_priority") or "").upper() if growth else ""
             days_idle = _integer(growth.get("days_since_last_txn")) if growth else None
 
             if is_churn_flagged or growth_prio in {"CRITICAL", "HIGH"}:
                 if is_churn_flagged:
                     s, u, c = 0.95, 0.90, 1.0
-                    reason = "High inactivity / 30-day merchant churn risk signal"
+                    if is_fwd_source and fwd is not None:
+                        prob = _number(fwd.get("forward_churn_probability"))
+                        prob_str = f"{prob:.1%}" if prob is not None else "High"
+                        reason = "Forward-looking 30-day merchant inactivity hazard"
+                        evidence = f"Forward hazard LightGBM model flagged 30d risk (probability: {prob_str}, cutoff: 2026-08-31)"
+                    else:
+                        reason = "LEGACY / HISTORICAL INACTIVITY RULE flagged merchant"
+                        evidence = f"Historical inactivity rule (days_since_last_txn >= 30, idle {days_idle}d)"
                     action = "Field officer follow-up visit and merchant retention campaign review"
                     exp_val = "Prevent merchant attrition and retain wallet transaction volume"
-                    prob = _number(churn.get("churn_probability"))
-                    prob_str = f"{prob:.1%}" if prob is not None else "High"
-                    evidence = (
-                        f"30-day inactivity model flagged risk (idle {days_idle}d, probability: {prob_str})"
-                    )
                     source_modules = ["churn"]
-                elif growth_prio == "CRITICAL":
+                elif growth_prio == "CRITICAL" and growth is not None:
                     s, u, c = 0.82, 0.80, 0.95
                     reason = "Severe transaction slowdown below peer cohort median"
                     action = (
@@ -251,7 +280,7 @@ class OperationsService:
                         or f"Growth priority CRITICAL, idle {days_idle}d"
                     )
                     source_modules = ["growth", "benchmark"]
-                else:
+                elif growth is not None:
                     s, u, c = 0.68, 0.70, 0.90
                     reason = "High growth opportunity with significant peer benchmark gap"
                     action = (
@@ -264,6 +293,13 @@ class OperationsService:
                         or f"Growth priority HIGH (score: {growth.get('growth_opportunity_score')})"
                     )
                     source_modules = ["growth"]
+                else:
+                    s, u, c = 0.50, 0.50, 0.50
+                    reason = "Merchant flagged for operations review"
+                    action = "Review merchant status and activity trend"
+                    exp_val = "Evaluate merchant engagement"
+                    evidence = f"Merchant {mid} requires review"
+                    source_modules = ["merchant"]
 
                 score = round((0.45 * s + 0.35 * u + 0.20 * c) * 100, 1)
 

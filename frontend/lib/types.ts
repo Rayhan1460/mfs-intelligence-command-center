@@ -59,6 +59,14 @@ export interface RegistryModel {
   forecast_scope?: string;
   artifact: string;
   version: string | null;
+  data_version?: string;
+  baseline?: string;
+  peer_grouping_columns?: string[];
+  peer_group_size?: string;
+  percentile_definition?: string;
+  fallback_behavior?: string;
+  threshold_rationale?: string;
+  top_features?: Array<{ feature: string; importance: number; normalized_pct?: number }>;
   documented_metrics: Record<string, string | number | Record<string, string>>;
   limitations: string[];
   synthetic_data: boolean;

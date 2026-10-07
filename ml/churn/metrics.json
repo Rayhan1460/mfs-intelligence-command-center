@@ -1,0 +1,208 @@
+{
+  "model_comparison_validation": {
+    "Logistic Regression": {
+      "roc_auc": 0.854,
+      "pr_auc": 0.4465,
+      "precision_at_0.5": 0.302,
+      "recall_at_0.5": 0.8668,
+      "f1_at_0.5": 0.448
+    },
+    "Random Forest": {
+      "roc_auc": 0.8501,
+      "pr_auc": 0.4339,
+      "precision_at_0.5": 0.3048,
+      "recall_at_0.5": 0.8533,
+      "f1_at_0.5": 0.4492
+    },
+    "LightGBM": {
+      "roc_auc": 0.8432,
+      "pr_auc": 0.4274,
+      "precision_at_0.5": 0.3095,
+      "recall_at_0.5": 0.8159,
+      "f1_at_0.5": 0.4487
+    }
+  },
+  "test_performance": {
+    "roc_auc": 0.8402,
+    "pr_auc": 0.4266,
+    "chosen_threshold": 0.35,
+    "chosen_metrics": {
+      "threshold": 0.35,
+      "precision": 0.2555,
+      "recall": 0.8871,
+      "f1": 0.3968,
+      "flagged_count": 2215,
+      "flagged_percentage": 44.3,
+      "confusion_matrix": {
+        "true_negatives": 2713,
+        "false_positives": 1649,
+        "false_negatives": 72,
+        "true_positives": 566
+      }
+    },
+    "threshold_sweep": [
+      {
+        "threshold": 0.25,
+        "precision": 0.2335,
+        "recall": 0.9154,
+        "f1": 0.3721,
+        "flagged_count": 2501,
+        "flagged_percentage": 50.02,
+        "confusion_matrix": {
+          "true_negatives": 2445,
+          "false_positives": 1917,
+          "false_negatives": 54,
+          "true_positives": 584
+        }
+      },
+      {
+        "threshold": 0.3,
+        "precision": 0.2455,
+        "recall": 0.8997,
+        "f1": 0.3858,
+        "flagged_count": 2338,
+        "flagged_percentage": 46.76,
+        "confusion_matrix": {
+          "true_negatives": 2598,
+          "false_positives": 1764,
+          "false_negatives": 64,
+          "true_positives": 574
+        }
+      },
+      {
+        "threshold": 0.35,
+        "precision": 0.2555,
+        "recall": 0.8871,
+        "f1": 0.3968,
+        "flagged_count": 2215,
+        "flagged_percentage": 44.3,
+        "confusion_matrix": {
+          "true_negatives": 2713,
+          "false_positives": 1649,
+          "false_negatives": 72,
+          "true_positives": 566
+        }
+      },
+      {
+        "threshold": 0.4,
+        "precision": 0.27,
+        "recall": 0.8746,
+        "f1": 0.4126,
+        "flagged_count": 2067,
+        "flagged_percentage": 41.34,
+        "confusion_matrix": {
+          "true_negatives": 2853,
+          "false_positives": 1509,
+          "false_negatives": 80,
+          "true_positives": 558
+        }
+      },
+      {
+        "threshold": 0.45,
+        "precision": 0.2829,
+        "recall": 0.848,
+        "f1": 0.4243,
+        "flagged_count": 1912,
+        "flagged_percentage": 38.24,
+        "confusion_matrix": {
+          "true_negatives": 2991,
+          "false_positives": 1371,
+          "false_negatives": 97,
+          "true_positives": 541
+        }
+      },
+      {
+        "threshold": 0.5,
+        "precision": 0.2957,
+        "recall": 0.826,
+        "f1": 0.4355,
+        "flagged_count": 1782,
+        "flagged_percentage": 35.64,
+        "confusion_matrix": {
+          "true_negatives": 3107,
+          "false_positives": 1255,
+          "false_negatives": 111,
+          "true_positives": 527
+        }
+      },
+      {
+        "threshold": 0.55,
+        "precision": 0.31,
+        "recall": 0.779,
+        "f1": 0.4436,
+        "flagged_count": 1603,
+        "flagged_percentage": 32.06,
+        "confusion_matrix": {
+          "true_negatives": 3256,
+          "false_positives": 1106,
+          "false_negatives": 141,
+          "true_positives": 497
+        }
+      },
+      {
+        "threshold": 0.6,
+        "precision": 0.3266,
+        "recall": 0.71,
+        "f1": 0.4474,
+        "flagged_count": 1387,
+        "flagged_percentage": 27.74,
+        "confusion_matrix": {
+          "true_negatives": 3428,
+          "false_positives": 934,
+          "false_negatives": 185,
+          "true_positives": 453
+        }
+      }
+    ],
+    "class_distribution": {
+      "total_test_rows": 5000,
+      "actual_churn_count": 638,
+      "actual_active_count": 4362,
+      "churn_base_rate": 0.1276
+    }
+  },
+  "coverage": {
+    "canonical_merchants": 5000,
+    "scored_merchants": 5000,
+    "coverage_percentage": 100.0,
+    "unscored_merchants": 0,
+    "unscored_reason": "None. All 5,000 canonical merchants have history on or before cutoff 2026-08-31."
+  },
+  "top_features": [
+    {
+      "feature": "merchant_tenure_days",
+      "importance": 603.0,
+      "normalized_percentage": 16.98
+    },
+    {
+      "feature": "days_since_last_txn",
+      "importance": 461.0,
+      "normalized_percentage": 12.98
+    },
+    {
+      "feature": "avg_txn_value_30d",
+      "importance": 440.0,
+      "normalized_percentage": 12.39
+    },
+    {
+      "feature": "txn_count_60d",
+      "importance": 431.0,
+      "normalized_percentage": 12.14
+    },
+    {
+      "feature": "txn_value_30d",
+      "importance": 372.0,
+      "normalized_percentage": 10.48
+    },
+    {
+      "feature": "txn_value_7d",
+      "importance": 236.0,
+      "normalized_percentage": 6.65
+    },
+    {
+      "feature": "merchant_category_encoded",
+      "importance": 209.0,
+      "normalized_percentage": 5.89
+    }
+  ]
+}

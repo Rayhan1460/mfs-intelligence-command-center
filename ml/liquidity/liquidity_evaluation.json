@@ -1,0 +1,63 @@
+{
+  "model_name": "Agent Liquidity Intelligence",
+  "algorithm": "LightGBM Regressor (Preserved Model)",
+  "governance_status": "Preserved; re-framed from point accuracy to P90 operational coverage",
+  "evaluation_sample_size": 12102,
+  "point_forecast_honesty": {
+    "mae": 1455.4,
+    "rmse": 2747.86,
+    "r2": -0.00949,
+    "naive_lag1_mae": 1633.58,
+    "mae_improvement_over_lag1_percent": 10.91,
+    "honest_verdict": "Point forecast skill is weak (R\u00b2 \u2248 -0.009). Model must NOT be marketed as highly accurate point predictor."
+  },
+  "p90_operational_buffer_evaluation": {
+    "target_coverage_percent": 90.0,
+    "empirical_p90_coverage_percent": 89.93,
+    "p90_pinball_loss": 615.62,
+    "shortfall_proxy_events": 1219,
+    "shortfall_rate_percent": 10.07,
+    "average_buffer_bdt": 1999.53,
+    "excess_buffer_cost_proxy_bdt": 2738.34,
+    "average_shortfall_depth_bdt": 4074.46,
+    "coverage_verdict": "Calibrated operational coverage achieves 89.93% (Target: 90.0%)."
+  },
+  "baseline_comparison": {
+    "model_recommended_p90": {
+      "coverage_percent": 89.93,
+      "p90_pinball_loss": 615.62
+    },
+    "rolling_7d_gaussian_p90": {
+      "coverage_percent": 86.52,
+      "p90_pinball_loss": 712.95
+    }
+  },
+  "by_agent_segment": {
+    "Standard": {
+      "total_records": 8635,
+      "shortfall_proxy_events": 865,
+      "empirical_p90_coverage_percent": 89.98,
+      "p90_pinball_loss": 611.94,
+      "shortfall_rate_percent": 10.02
+    },
+    "Master": {
+      "total_records": 1085,
+      "shortfall_proxy_events": 110,
+      "empirical_p90_coverage_percent": 89.86,
+      "p90_pinball_loss": 688.51,
+      "shortfall_rate_percent": 10.14
+    },
+    "Retail": {
+      "total_records": 2382,
+      "shortfall_proxy_events": 244,
+      "empirical_p90_coverage_percent": 89.76,
+      "p90_pinball_loss": 595.75,
+      "shortfall_rate_percent": 10.24
+    }
+  },
+  "ui_terminology": {
+    "stockout_label": "LIQUIDITY SHORTFALL PROXY",
+    "confidence_label": "P90 operational buffer \u2014 calibrated coverage; point forecast weak.",
+    "prohibited_claim": "Validated LightGBM = high quality point forecast"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "dataset_name": "MFS Merchant Forward-Looking 30-Day Churn",
+  "reference_period_train": "2026-05-31",
+  "reference_period_val": "2026-06-30",
+  "reference_period_test": "2026-07-31",
+  "reference_period_score": "2026-08-31",
+  "feature_list": [
+    "merchant_category_encoded",
+    "business_size_encoded",
+    "qr_enabled",
+    "app_enabled",
+    "merchant_tenure_days",
+    "days_since_last_txn",
+    "txn_count_7d",
+    "txn_count_30d",
+    "txn_count_60d",
+    "txn_value_7d",
+    "txn_value_30d",
+    "avg_txn_value_30d",
+    "active_days_30d",
+    "txn_velocity_ratio",
+    "value_velocity_ratio"
+  ],
+  "feature_count": 15,
+  "target_definition": "1 if zero transactions in (T, T + 30 days], else 0 (No future leakage)",
+  "canonical_merchants_count": 5000,
+  "split_summary": {
+    "train": {
+      "cutoff_date": "2026-05-31",
+      "eligible_merchants": 5000,
+      "total_merchants": 5000,
+      "ineligible_breakdown": {
+        "onboarded_after_cutoff": 0
+      },
+      "positive_churn_count": 692,
+      "negative_churn_count": 4308
+    },
+    "val": {
+      "cutoff_date": "2026-06-30",
+      "eligible_merchants": 5000,
+      "total_merchants": 5000,
+      "ineligible_breakdown": {
+        "onboarded_after_cutoff": 0
+      },
+      "positive_churn_count": 668,
+      "negative_churn_count": 4332
+    },
+    "test": {
+      "cutoff_date": "2026-07-31",
+      "eligible_merchants": 5000,
+      "total_merchants": 5000,
+      "ineligible_breakdown": {
+        "onboarded_after_cutoff": 0
+      },
+      "positive_churn_count": 638,
+      "negative_churn_count": 4362
+    },
+    "score": {
+      "cutoff_date": "2026-08-31",
+      "eligible_merchants": 5000,
+      "total_merchants": 5000,
+      "ineligible_breakdown": {
+        "onboarded_after_cutoff": 0
+      },
+      "positive_churn_count": 691,
+      "negative_churn_count": 4309
+    }
+  }
+}
